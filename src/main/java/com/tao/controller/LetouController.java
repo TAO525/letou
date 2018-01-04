@@ -18,8 +18,13 @@ public class LetouController {
     private LetouService letouService;
 
     @ResponseBody
-    @RequestMapping("/")
+    @RequestMapping("/test")
     public Object getById(){
         return letouService.getById();
+    }
+
+    @RequestMapping("/index.html")
+    public String index(){
+        return "index";
     }
 }

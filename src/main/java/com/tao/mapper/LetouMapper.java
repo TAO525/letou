@@ -55,4 +55,10 @@ public interface LetouMapper {
     int updateByPrimaryKey(Letou record);
 
     List<Letou> getList(Letou Letou);
+
+    Letou getNew();
+
+    long getTotalPeople(int type);
+
+    long getTotal(int type);
 }
