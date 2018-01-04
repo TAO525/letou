@@ -385,4 +385,37 @@
      select * from letou
     <include refid="sql_where" />
   </select>
+
+  <select id="getNew" resultMap="BaseResultMap" >
+    select * from letou
+    ORDER BY periods desc limit 1
+  </select>
+
+  <select id="getTotalPeople" resultType="long" parameterType="int">
+    SELECT
+     <if test="type == 1">
+     SUM(first_num)
+     </if>
+    <if test="type == 2">
+      SUM(second_num)
+    </if>
+    <if test="type == 3">
+      SUM(third_num)
+    </if>
+    FROM letou;
+  </select>
+
+  <select id="getTotal" resultType="long" parameterType="int">
+    SELECT
+    <if test="type == 1">
+      SUM(first_price)
+    </if>
+    <if test="type == 2">
+      SUM(second_price)
+    </if>
+    <if test="type == 3">
+      SUM(third_price)
+    </if>
+    FROM letou;
+  </select>
 </mapper>

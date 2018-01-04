@@ -21,4 +21,22 @@ public class LetouService {
         letou.setId(1L);
         return letouMapper.getList(letou).get(0);
     }
+
+    public Letou getNew(){
+        return letouMapper.getNew();
+    }
+
+    /**
+     * 获奖人数
+     * @param type 1 一等奖 2 二等奖 3 三等奖
+     * @return
+     */
+    public long getTotalPeople(int type){
+        return letouMapper.getTotalPeople(type);
+    }
+
+    public long getTotal(int type){
+        return letouMapper.getTotal(type);
+    }
+
 }
