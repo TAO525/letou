@@ -58,6 +58,8 @@ public interface LetouMapper {
 
     Letou getNew();
 
+    List<Letou> getNews(int limitnum);
+
     long getTotalPeople(int type);
 
     long getTotal(int type);

@@ -391,6 +391,11 @@
     ORDER BY periods desc limit 1
   </select>
 
+  <select id="getNews" resultMap="BaseResultMap" parameterType="int">
+    select * from letou
+    ORDER BY periods desc limit #{limitnum}
+  </select>
+
   <select id="getTotalPeople" resultType="long" parameterType="int">
     SELECT
      <if test="type == 1">
