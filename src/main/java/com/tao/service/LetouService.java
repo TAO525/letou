@@ -1,5 +1,6 @@
 package com.tao.service;
 
+import com.google.common.collect.Lists;
 import com.tao.domain.Letou;
 import com.tao.mapper.LetouMapper;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,7 @@ public class LetouService {
 //        }
         List<Integer> bluePool = new ArrayList<>(diffblue);
         List<Integer> redPool = new ArrayList<>(diffred);
+        ArrayList<Integer> blueBalls = Lists.newArrayList();
         for (int i =0;i<6; i++)
         {
             int _index=(int)(Math.random()* bluePool.size());
@@ -89,7 +91,13 @@ public class LetouService {
             //System.out.print("("+(_index+1)+")"+mNums.get(_index)+"-");
             //如何删除一个元素
             bluePool.remove(_index);
+            blueBalls.add(blueBall);
+//            System.out.println(blueBall);
         }
+        int _index=(int)(Math.random()* redPool.size());
+        Integer redball=redPool.get(_index);
+        //System.out.print("("+(_index+1)+")"+mNums.get(_index)+"-");
+        System.out.println(redball);
         return null;
     }
 }
