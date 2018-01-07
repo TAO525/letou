@@ -423,4 +423,66 @@
     </if>
     FROM letou;
   </select>
+
+  <select id="getCountByNumber4S" resultType="long" parameterType="map">
+    SELECT COUNT(1)
+    FROM (
+      SELECT
+      *
+      FROM letou
+      <if test="limit != null">
+        ORDER BY periods DESC
+        limit #{limit}
+      </if>
+    ) tmp
+    where s1 = #{num}
+  </select>
+
+  <select id="getCountByNumber4C" resultType="long" parameterType="map">
+    SELECT
+      count(1)
+    FROM (
+      SELECT *
+        FROM letou
+        <if test="limit != null">
+          ORDER BY periods DESC
+          limit #{limit}
+        </if>
+    ) tmp
+    <if test="type == 1">
+      where c1 = #{num}
+    </if>
+    <if test="type == 2">
+      where c2 = #{num}
+    </if>
+    <if test="type == 3">
+      where c3 = #{num}
+    </if>
+    <if test="type == 4">
+      where c4 = #{num}
+    </if>
+    <if test="type == 5">
+      where c5 = #{num}
+    </if>
+    <if test="type == 6">
+      where c6 = #{num}
+    </if>
+  </select>
+
+  <select id="getTotalCount4S" resultType="long" parameterType="int">
+    SELECT COUNT(1)
+    FROM letou
+    where s1 = #{num}
+  </select>
+
+  <select id="getTotalCount4C" resultType="long" parameterType="int">
+    SELECT COUNT(1)
+    FROM letou
+    where c1 = #{num}
+    or c2 = #{num}
+    or c3 = #{num}
+    or c4 = #{num}
+    or c5 = #{num}
+    or c6 = #{num}
+  </select>
 </mapper>

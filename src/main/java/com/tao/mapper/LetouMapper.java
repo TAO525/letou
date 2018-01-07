@@ -2,6 +2,7 @@ package com.tao.mapper;
 
 
 import com.tao.domain.Letou;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -63,4 +64,12 @@ public interface LetouMapper {
     long getTotalPeople(int type);
 
     long getTotal(int type);
+
+    long getCountByNumber4C(@Param("type") int type,@Param("num") int num,@Param("limit")Integer limit);
+
+    long getCountByNumber4S(@Param("num") int num,@Param("limit")Integer limit);
+
+    long getTotalCount4S(int num);
+
+    long getTotalCount4C(int num);
 }

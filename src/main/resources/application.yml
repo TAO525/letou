@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: dev
+  mvc:
+    favicon:
+      enabled: true
 ## Mybatis
 mybatis:
     typeAliasesPackage: com.tao.domain
@@ -8,7 +11,10 @@ mybatis:
 server:
   port: 8080
   context-path: /letou
-
+logging:
+  file: ./luck.log
+#  level:
+#        com.tao: debug
 ---
 ## 数据库
 spring:
