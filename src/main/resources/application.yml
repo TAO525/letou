@@ -4,6 +4,8 @@ spring:
   mvc:
     favicon:
       enabled: true
+  thymeleaf:
+    cache: false
 ## Mybatis
 mybatis:
     typeAliasesPackage: com.tao.domain

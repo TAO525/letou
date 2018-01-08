@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <style>
+        body {
+            background: url(/letou/images/bg.png) repeat;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+    </style>
 </head>
 <body>
 
-hello world
-
+<div style="color: white">
+    <span th:text="newballs"></span>
+</div>
 
 </body>
 </html>
