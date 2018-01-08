@@ -2,6 +2,8 @@ package com.tao.service;
 
 import com.google.common.collect.Lists;
 import com.tao.domain.Letou;
+import com.tao.domain.LetouLog;
+import com.tao.mapper.LetouLogMapper;
 import com.tao.mapper.LetouMapper;
 import org.apache.juli.logging.LogFactory;
 import org.slf4j.Logger;
@@ -34,6 +36,9 @@ public class LetouService {
 
     @Resource
     private LetouMapper letouMapper;
+
+    @Resource
+    private LetouLogMapper letouLogMapper;
 
     public Letou getById(){
         Letou letou = new Letou();
@@ -97,7 +102,7 @@ public class LetouService {
         Sets.SetView<Integer> diffred = Sets.difference(ALLRED,excludeRed);
         List<Integer> bluePool = new ArrayList<>(diffblue);
         List<Integer> redPool = new ArrayList<>(diffred);
-        ArrayList<Integer> blueBalls = Lists.newArrayList();
+        List<Integer> blueBalls = Lists.newArrayList();
         int he = 0;
         for (int i =0;i<6; i++)
         {
@@ -111,7 +116,7 @@ public class LetouService {
         Collections.sort(blueBalls);
         if(he < 64 || he > 144){
             logger.info("不在和数之内{}",blueBalls.toString());
-            luck();
+            return luck();
         }
         int _index=(int)(Math.random()* redPool.size());
         Integer redball=redPool.get(_index);
@@ -125,10 +130,11 @@ public class LetouService {
         List<Letou> list = letouMapper.getList(luck);
         if(list != null && list.size() > 0 ){
             logger.info("出现重复数字{}",blueBalls.toString());
-            luck();
+            return luck();
         }
         blueBalls.add(redball);
         logger.info("本次幸运数字{}",blueBalls.toString());
+        letouLogMapper.insertSelective(new LetouLog(blueBalls));
         return blueBalls;
     }
 
