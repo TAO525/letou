@@ -19,8 +19,8 @@
 </head>
 <body>
 
-<div style="color: white">
-    <span th:text="newballs"></span>
+<div style="color: white ;width: 70% ;height: 50%; margin: 0 auto;margin-top: 100px; font-size: 2em;text-align: center">
+        <span th:each="ball: ${newballs}" th:text="${ball}"></span>
 </div>
 
 </body>

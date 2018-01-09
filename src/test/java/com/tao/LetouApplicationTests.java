@@ -22,7 +22,7 @@ public class LetouApplicationTests {
 
 	@Test
 	public void test_luck(){
-		for (int i=0;i<200;i++) {
+		for (int i=0;i<2000000;i++) {
 			letouService.luck();
 		}
 	}
