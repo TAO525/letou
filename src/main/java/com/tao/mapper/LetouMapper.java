@@ -61,9 +61,9 @@ public interface LetouMapper {
 
     List<Letou> getNews(int limitnum);
 
-    long getTotalPeople(int type);
+    long getTotalPeople(@Param("type")int type);
 
-    long getTotal(int type);
+    long getTotal(@Param("type")int type);
 
     long getCountByNumber4C(@Param("type") int type,@Param("num") int num,@Param("limit")Integer limit);
 
