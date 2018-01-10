@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,5 +45,18 @@ public class LetouController {
         modelAndView.addObject("totalPeople",fmt.format(totalPeople));
         modelAndView.addObject("total",fmt.format(total));
         return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping("overview")
+    public Object overView(){
+        long totalCount4C = letouService.getTotalCount4C(1);
+        long totalCount4S = letouService.getTotalCount4S(1);
+        return Arrays.asList(totalCount4C,totalCount4S);
+    }
+
+    @RequestMapping("overview.html")
+    public String overViewhtml(){
+        return "overview";
     }
 }

@@ -140,7 +140,7 @@ public class LetouService {
 
     /**
      * 获取篮球出现的次数
-     * type 1-6
+     * type 出现位置1-6
      * num 1-33
      * @param type
      * @param num
