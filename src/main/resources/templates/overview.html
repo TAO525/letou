@@ -2,69 +2,172 @@
 <head lang="en">
     <meta charset="UTF-8"/>
     <title></title>
+    <script th:src='@{jquery-1.10.2.min.js}'></script>
 </head>
 <body>
 <script th:src="@{echarts/echarts.min.js}"></script>
 <!-- 为ECharts准备一个具备大小（宽高）的DOM容器-->
-<div id='main' style='height:400px;'></div>
+<div id='main' style='width:1800px;height:400px;'></div>
+
+<div id='main2' style='height:400px;margin-top: 50px'></div>
 </body>
 <script th:src='@{echarts/macarons.js}'></script>
+<script th:src='@{echarts/shine.js}'></script>
 <script>
-    var myChart = echarts.init(document.getElementById('main'),'macarons');
+    $(function(){
+        var blues,reds;
+        var colum = new Array();
+        var rcolum = new Array;
+        //thymeleaf 存在转义问题
+        /* <![CDATA[ */
+        for(var index=1; index <=33 ;index++) {
+            if (index < 10) {
+                colum.push("0" + index);
+            } else {
+                colum.push(index)
+            }
+        }
 
-    option = {
-        title : {
-            text: '蓝球出现次数'
-        },
-        toolbox: {
-            show : true,
-            feature : {
-                mark : {show: true},
-                dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar']},
-                restore : {show: true},
-                saveAsImage : {show: true}
+        for(var index=1; index <=16 ;index++){
+            if(index<10){
+                rcolum.push("0"+index);
+            }else {
+                rcolum.push(index)
             }
-        },
-        calculable : true,
-        xAxis : [
-            {
-                type : 'category',
-                data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        label:{
-            normal:{
-                show: true,
-                position: 'inside'
-            }
-        },
-        series : [
+        } /* ]]> */
+        $.ajax({url:"/letou/blues",success:function(result){
+            blues = result;
+            console.log(blues)
+            console.log(colum)
 
-            {
-                name:'降水量',
-                type:'bar',
-                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-               /* markPoint : {
-                    data : [
-                        {name : '最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
-                        {name : '最低', value : 2.3, xAxis: 11, yAxis: 3}
+            var myChart = echarts.init(document.getElementById('main'),'macarons');
+            option = {
+                title : {
+                    text: '蓝球出现次数'
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {show: true, type: ['line', 'bar']},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : colum
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                label:{
+                    normal:{
+                        show: true,
+                        position: 'inside'
+                    }
+                },
+                series : [
+
+                    {
+                        name:'降水量',
+                        type:'bar',
+                        data:blues,
+                        /* markPoint : {
+                         data : [
+                         {name : '最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
+                         {name : '最低', value : 2.3, xAxis: 11, yAxis: 3}
+                         ]
+                         },*/
+                        markPoint : {
+                            data:[
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                    markLine : {
+                            data : [
+                                {type : 'average', name : '平均值'}
+                            ]
+                        }
+                    }
+                ]
+            };
+            //使用刚指定的配置项和数据显示图表
+            myChart.setOption(option);
+        }});
+// 红球统计
+        $.ajax({url:"/letou/reds",success:function(result){
+                reds = result;
+
+                var myChart = echarts.init(document.getElementById('main2'),'shine');
+                option = {
+                    title : {
+                        text: '红球出现次数',
+                        textStyle: {
+                            color: 'red'
+                        }
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : rcolum
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    label:{
+                        normal:{
+                            show: true,
+                            position: 'inside'
+                        }
+                    },
+                    series : [
+
+                        {
+                            name:'降水量',
+                            type:'bar',
+                            data:reds,
+                            markPoint : {
+                                data:[
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name : '平均值'}
+                                ]
+                            }
+                        }
                     ]
-                },*/
-                markLine : {
-                    data : [
-                        {type : 'average', name : '平均值'}
-                    ]
-                }
-            }
-        ]
-    };
-    //使用刚指定的配置项和数据显示图表
-    myChart.setOption(option);
+                };
+                //使用刚指定的配置项和数据显示图表
+                myChart.setOption(option);
+            }});
+
+
+    })
+
 </script>
 </html>
