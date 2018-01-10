@@ -48,11 +48,25 @@ public class LetouController {
     }
 
     @ResponseBody
-    @RequestMapping("overview")
-    public Object overView(){
-        long totalCount4C = letouService.getTotalCount4C(1);
-        long totalCount4S = letouService.getTotalCount4S(1);
-        return Arrays.asList(totalCount4C,totalCount4S);
+    @RequestMapping("blues")
+    public Object blues(){
+        ArrayList<Long> blues = Lists.newArrayList();
+        for(int i=1; i<=33; i++){
+            long totalCount4C = letouService.getTotalCount4C(i);
+            blues.add(totalCount4C);
+        }
+        return blues;
+    }
+
+    @ResponseBody
+    @RequestMapping("reds")
+    public Object reds(){
+        ArrayList<Long> reds = Lists.newArrayList();
+        for(int i=1; i<=16; i++){
+            long totalCount4S = letouService.getTotalCount4S(i);
+            reds.add(totalCount4S);
+        }
+        return reds;
     }
 
     @RequestMapping("overview.html")
