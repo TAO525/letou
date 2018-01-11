@@ -172,4 +172,8 @@ public class LetouService {
     public long getTotalCount4C(int num){
         return letouMapper.getTotalCount4C(num);
     }
+
+    public long getTotalCount4CWithLimit(int num,int limit){
+        return letouMapper.getTotalCount4CWithLimit(num,limit);
+    }
 }

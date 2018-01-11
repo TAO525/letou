@@ -72,4 +72,6 @@ public interface LetouMapper {
     long getTotalCount4S(int num);
 
     long getTotalCount4C(int num);
+
+    long getTotalCount4CWithLimit(@Param("num") int num,@Param("limit")Integer limit);
 }

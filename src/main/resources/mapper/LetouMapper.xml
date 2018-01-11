@@ -485,4 +485,23 @@
     or c5 = #{num}
     or c6 = #{num}
   </select>
+
+  <select id="getTotalCount4CWithLimit" resultType="long" parameterType="map">
+    SELECT
+    count(1)
+    FROM (
+    SELECT *
+    FROM letou
+    <if test="limit != null">
+      ORDER BY periods DESC
+      limit #{limit}
+    </if>
+    ) tmp
+    where c1 = #{num}
+    or c2 = #{num}
+    or c3 = #{num}
+    or c4 = #{num}
+    or c5 = #{num}
+    or c6 = #{num}
+  </select>
 </mapper>

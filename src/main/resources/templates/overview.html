@@ -1,21 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <meta charset="UTF-8"/>
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>统计数据</title>
     <script th:src='@{jquery-1.10.2.min.js}'></script>
+    <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link type="favicon" rel="shortcut icon" th:href="@{favicon.ico}" />
 </head>
 <body>
 <script th:src="@{echarts/echarts.min.js}"></script>
-<!-- 为ECharts准备一个具备大小（宽高）的DOM容器-->
-<div id='main' style='width:1800px;height:400px;'></div>
 
-<div id='main2' style='height:400px;margin-top: 50px'></div>
+<div class="form-group" style="width: 500px;margin-top: 20px;margin-left: 10px">
+    <label for="limit" class="ml15 control-label">统计期数</label>&nbsp;&nbsp;
+    <input id="limit" type="text" placeholder="不输入则查询全部"/>
+    <button type="button" class="btn btn-primary btn-sm" id="search">查询</button>
+</div>
+<!-- 为ECharts准备一个具备大小（宽高）的DOM容器-->
+<div id='main' style='width:1800px;height:400px;margin-top: 20px'></div>
+
+<div id='main2' style='height:400px;margin-top: 50px;width: 1000px'></div>
 </body>
 <script th:src='@{echarts/macarons.js}'></script>
 <script th:src='@{echarts/shine.js}'></script>
 <script>
     $(function(){
         var blues,reds;
+        var limit = '';
         var colum = new Array();
         var rcolum = new Array;
         //thymeleaf 存在转义问题
@@ -35,136 +45,159 @@
                 rcolum.push(index)
             }
         } /* ]]> */
-        $.ajax({url:"/letou/blues",success:function(result){
-            blues = result;
-            console.log(blues)
-            console.log(colum)
 
-            var myChart = echarts.init(document.getElementById('main'),'macarons');
-            option = {
-                title : {
-                    text: '蓝球出现次数'
-                },
-                toolbox: {
-                    show : true,
-                    feature : {
-                        mark : {show: true},
-                        dataView : {show: true, readOnly: false},
-                        magicType : {show: true, type: ['line', 'bar']},
-                        restore : {show: true},
-                        saveAsImage : {show: true}
-                    }
-                },
-                calculable : true,
-                xAxis : [
-                    {
-                        type : 'category',
-                        data : colum
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                label:{
-                    normal:{
-                        show: true,
-                        position: 'inside'
-                    }
-                },
-                series : [
+        var option1= {
+            title : {
+                text: '蓝球出现次数'
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : colum
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            label:{
+                normal:{
+                    show: true,
+                    position: 'inside'
+                }
+            },
+            series : [
 
-                    {
-                        name:'降水量',
-                        type:'bar',
-                        data:blues,
-                        /* markPoint : {
-                         data : [
-                         {name : '最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
-                         {name : '最低', value : 2.3, xAxis: 11, yAxis: 3}
-                         ]
-                         },*/
-                        markPoint : {
-                            data:[
-                                {type: 'max', name: '最大值'},
-                                {type: 'min', name: '最小值'}
-                            ]
-                        },
+                {
+                    name:'降水量',
+                    type:'bar',
+                    data:[],
+                    /* markPoint : {
+                     data : [
+                     {name : '最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
+                     {name : '最低', value : 2.3, xAxis: 11, yAxis: 3}
+                     ]
+                     },*/
+                    markPoint : {
+                        data:[
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
                     markLine : {
-                            data : [
-                                {type : 'average', name : '平均值'}
-                            ]
-                        }
+                        data : [
+                            {type : 'average', name : '平均值'}
+                        ]
                     }
-                ]
-            };
+                }
+            ]
+        };
+
+        var myChart1 = echarts.init(document.getElementById('main'),'macarons');
+        $.ajax({url:"/letou/blues",data: {limit:limit},success:function(result){
+            console.log(blues)
+
+            console.log(colum)
+            option1.series[0].data = result;
             //使用刚指定的配置项和数据显示图表
-            myChart.setOption(option);
+            myChart1.setOption(option1);
         }});
-// 红球统计
-        $.ajax({url:"/letou/reds",success:function(result){
-                reds = result;
+        // 红球统计
+        var option2 = {
+            title : {
+                text: '红球出现次数',
+                textStyle: {
+                    color: 'red'
+                }
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : rcolum
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            label:{
+                normal:{
+                    show: true,
+                    position: 'inside'
+                }
+            },
+            series : [
 
-                var myChart = echarts.init(document.getElementById('main2'),'shine');
-                option = {
-                    title : {
-                        text: '红球出现次数',
-                        textStyle: {
-                            color: 'red'
-                        }
+                {
+                    name:'降水量',
+                    type:'bar',
+                    data:[],
+                    markPoint : {
+                        data:[
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
                     },
-                    toolbox: {
-                        show : true,
-                        feature : {
-                            mark : {show: true},
-                            dataView : {show: true, readOnly: false},
-                            magicType : {show: true, type: ['line', 'bar']},
-                            restore : {show: true},
-                            saveAsImage : {show: true}
-                        }
-                    },
-                    calculable : true,
-                    xAxis : [
-                        {
-                            type : 'category',
-                            data : rcolum
-                        }
-                    ],
-                    yAxis : [
-                        {
-                            type : 'value'
-                        }
-                    ],
-                    label:{
-                        normal:{
-                            show: true,
-                            position: 'inside'
-                        }
-                    },
-                    series : [
+                    markLine : {
+                        data : [
+                            {type : 'average', name : '平均值'}
+                        ]
+                    }
+                }
+            ]
+        };
+        var myChart2 = echarts.init(document.getElementById('main2'),'shine');
+        $.ajax({url:"/letou/reds",data: {limit:limit},success:function(result){
 
-                        {
-                            name:'降水量',
-                            type:'bar',
-                            data:reds,
-                            markPoint : {
-                                data:[
-                                    {type: 'max', name: '最大值'},
-                                    {type: 'min', name: '最小值'}
-                                ]
-                            },
-                            markLine : {
-                                data : [
-                                    {type : 'average', name : '平均值'}
-                                ]
-                            }
-                        }
-                    ]
-                };
-                //使用刚指定的配置项和数据显示图表
-                myChart.setOption(option);
-            }});
+            option2.series[0].data = result
+            //使用刚指定的配置项和数据显示图表
+            myChart2.setOption(option2);
+        }});
+        
+        $('#search').click(function () {
+            limit = $.trim($('#limit').val());
+            if(limit){
+                $.ajax({url:"/letou/blues",data: {limit:limit},success:function(result){
+                    console.log(blues)
+
+                    console.log(colum)
+                    option1.series[0].data = result;
+                    //使用刚指定的配置项和数据显示图表
+                    myChart1.setOption(option1);
+                }});
+
+                $.ajax({url:"/letou/reds",data: {limit:limit},success:function(result){
+
+                    option2.series[0].data = result
+                    //使用刚指定的配置项和数据显示图表
+                    myChart2.setOption(option2);
+                }});
+            }
+        })
     })
 </script>
 </html>

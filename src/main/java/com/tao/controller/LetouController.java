@@ -49,22 +49,36 @@ public class LetouController {
 
     @ResponseBody
     @RequestMapping("blues")
-    public Object blues(){
+    public Object blues(Integer limit){
         ArrayList<Long> blues = Lists.newArrayList();
-        for(int i=1; i<=33; i++){
-            long totalCount4C = letouService.getTotalCount4C(i);
-            blues.add(totalCount4C);
+        if(limit == null || limit == 0){
+            for (int i = 1; i <= 33; i++) {
+                long totalCount4C = letouService.getTotalCount4C(i);
+                blues.add(totalCount4C);
+            }
+        }else {
+            for (int i=1; i<=33; i++){
+                long totalCount4C = letouService.getTotalCount4CWithLimit(i,limit);
+                blues.add(totalCount4C);
+            }
         }
         return blues;
     }
 
     @ResponseBody
     @RequestMapping("reds")
-    public Object reds(){
+    public Object reds(Integer limit){
         ArrayList<Long> reds = Lists.newArrayList();
-        for(int i=1; i<=16; i++){
-            long totalCount4S = letouService.getTotalCount4S(i);
-            reds.add(totalCount4S);
+        if(limit == null || limit == 0){
+            for (int i = 1; i <= 16; i++) {
+                long totalCount4S = letouService.getTotalCount4S(i);
+                reds.add(totalCount4S);
+            }
+        }else {
+            for (int i = 1; i <= 16; i++) {
+                long totalCount4S = letouService.getCountByNumber4S(i,limit);
+                reds.add(totalCount4S);
+            }
         }
         return reds;
     }
