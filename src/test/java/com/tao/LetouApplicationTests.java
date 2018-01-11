@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -52,5 +54,22 @@ public class LetouApplicationTests {
 		System.out.println(letouService.getTotalCount4C(11));
 	}
 
+	@Test
+	public void test_third(){
+		List<Integer> integers = Arrays.asList(2, 9, 13, 15, 18, 26, 5);
+		System.out.println(letouService.getThirdCount(integers));
+	}
+
+	@Test
+	public void test_two(){
+		List<Integer> integers = Arrays.asList(5, 9, 13, 15, 18, 26, 15);
+		System.out.println(letouService.getTwoCount(integers));
+	}
+
+	@Test
+	public void test_one(){
+		List<Integer> integers = Arrays.asList(5, 9, 13, 15, 18, 26, 5);
+		System.out.println(letouService.getOneCount(integers));
+	}
 
 }

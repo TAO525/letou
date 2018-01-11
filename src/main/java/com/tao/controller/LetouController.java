@@ -51,7 +51,7 @@ public class LetouController {
     @RequestMapping("blues")
     public Object blues(Integer limit){
         ArrayList<Long> blues = Lists.newArrayList();
-        if(limit == null || limit == 0){
+        if(limit == null || limit <= 0){
             for (int i = 1; i <= 33; i++) {
                 long totalCount4C = letouService.getTotalCount4C(i);
                 blues.add(totalCount4C);
@@ -69,7 +69,7 @@ public class LetouController {
     @RequestMapping("reds")
     public Object reds(Integer limit){
         ArrayList<Long> reds = Lists.newArrayList();
-        if(limit == null || limit == 0){
+        if(limit == null || limit <= 0){
             for (int i = 1; i <= 16; i++) {
                 long totalCount4S = letouService.getTotalCount4S(i);
                 reds.add(totalCount4S);

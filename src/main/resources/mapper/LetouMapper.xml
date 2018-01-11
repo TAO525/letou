@@ -504,4 +504,9 @@
     or c5 = #{num}
     or c6 = #{num}
   </select>
+
+  <select id="getByS" resultMap="BaseResultMap" parameterType="int">
+    select * from letou
+    WHERE s1 = #{num}
+  </select>
 </mapper>

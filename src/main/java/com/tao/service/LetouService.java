@@ -13,6 +13,7 @@ import com.google.common.collect.Sets;
 
 import javax.annotation.Resource;
 import java.util.*;
+import static com.tao.utils.LetouUtil.*;
 
 /**
  * @Author TAO
@@ -121,12 +122,12 @@ public class LetouService {
         int _index=(int)(Math.random()* redPool.size());
         Integer redball=redPool.get(_index);
         Letou luck = new Letou();
-        luck.setC1(blueBalls.get(0)+"");
-        luck.setC2(blueBalls.get(1)+"");
-        luck.setC3(blueBalls.get(2)+"");
-        luck.setC4(blueBalls.get(3)+"");
-        luck.setC5(blueBalls.get(4)+"");
-        luck.setC6(blueBalls.get(5)+"");
+        luck.setC1(parseInt(blueBalls.get(0)));
+        luck.setC2(parseInt(blueBalls.get(1)));
+        luck.setC3(parseInt(blueBalls.get(2)));
+        luck.setC4(parseInt(blueBalls.get(3)));
+        luck.setC5(parseInt(blueBalls.get(4)));
+        luck.setC6(parseInt(blueBalls.get(5)));
         List<Letou> list = letouMapper.getList(luck);
         if(list != null && list.size() > 0 ){
             logger.info("出现重复数字{}",blueBalls.toString());
@@ -139,7 +140,7 @@ public class LetouService {
     }
 
     /**
-     * 获取篮球出现的次数
+     * 根据位置和期数获取篮球出现的次数
      * type 出现位置1-6
      * num 1-33
      * @param type
@@ -151,7 +152,7 @@ public class LetouService {
     }
 
     /**
-     * 获取红球出现的次数
+     * 根据位置和期数获取红球出现的次数
      * @param num 1-16
      * @param limit 倒数期数 不加为全部
      * @return
@@ -176,4 +177,84 @@ public class LetouService {
     public long getTotalCount4CWithLimit(int num,int limit){
         return letouMapper.getTotalCount4CWithLimit(num,limit);
     }
+
+    /**
+     * 选择号码中三等奖次数
+     */
+    public int getThirdCount(List<Integer> nums){
+        if(nums == null || nums.size() != 7){
+            return 0;
+        }
+        int thirdcount = 0;
+        Integer red = nums.get(6);
+        List<Integer> opers = nums.subList(0, 6);
+        List<Letou> letous = letouMapper.getByS(red);
+        for (Letou l : letous){
+            int fit = 0;
+            for(int choose : opers){
+                int c1 = Integer.parseInt(l.getC1());
+                int c2 = Integer.parseInt(l.getC2());
+                int c3 = Integer.parseInt(l.getC3());
+                int c4 = Integer.parseInt(l.getC4());
+                int c5 = Integer.parseInt(l.getC5());
+                int c6 = Integer.parseInt(l.getC6());
+                if(c1 == choose || c2 == choose || c3 == choose || c4 == choose || c5 == choose || c6==choose){
+                    fit ++ ;
+                }
+            }
+            if (fit == 5){
+                thirdcount ++;
+            }
+        }
+        return thirdcount;
+    }
+
+    /**
+     * 所选组合中过一奖次数
+     * @return
+     */
+    public int getOneCount(List<Integer> nums){
+        Letou luck = new Letou();
+        luck.setC1(parseInt(nums.get(0)));
+        luck.setC2(parseInt(nums.get(1)));
+        luck.setC3(parseInt(nums.get(2)));
+        luck.setC4(parseInt(nums.get(3)));
+        luck.setC5(parseInt(nums.get(4)));
+        luck.setC6(parseInt(nums.get(5)));
+        luck.setS1(parseInt(nums.get(6)));
+        List<Letou> list = letouMapper.getList(luck);
+        if(list == null){
+            return 0;
+        }
+        return list.size();
+    }
+
+
+    /**
+     * 所选组合中过二奖次数
+     * @return
+     */
+    public int getTwoCount(List<Integer> nums){
+        Letou luck = new Letou();
+        luck.setC1(parseInt(nums.get(0)));
+        luck.setC2(parseInt(nums.get(1)));
+        luck.setC3(parseInt(nums.get(2)));
+        luck.setC4(parseInt(nums.get(3)));
+        luck.setC5(parseInt(nums.get(4)));
+        luck.setC6(parseInt(nums.get(5)));
+        List<Letou> list = letouMapper.getList(luck);
+        if(list == null){
+            return 0;
+        }
+        Iterator<Letou> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Letou letou = iterator.next();
+            if (Integer.valueOf(letou.getS1()).equals(nums.get(6))) {
+                iterator.remove();
+            }
+        }
+
+        return list.size();
+    }
+
 }
