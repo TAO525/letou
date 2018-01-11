@@ -509,4 +509,8 @@
     select * from letou
     WHERE s1 = #{num}
   </select>
+
+  <select id="getTotalPeriods" resultType="long">
+    select count(1) from letou
+  </select>
 </mapper>

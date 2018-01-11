@@ -6,6 +6,7 @@
     <meta content="text/html;charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script th:src='@{jquery-1.10.2.min.js}'></script>
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link type="favicon" rel="shortcut icon" th:href="@{favicon.ico}" />
     <link th:href="@{bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
@@ -29,10 +30,53 @@
         <span style="color: deepskyblue" th:each="blue: ${blues}" th:text="${blue}"></span>
         <span style="color: red" th:text="${red}"></span>
     </div>
-    <div style="width: 49%;float: left;font-size: 0.4em;margin-top: 20px"><span th:text="'一奖总人数:'+${totalPeople}+'人'"/></div>
+    <div style="width: 49%;float: left;font-size: 0.4em;margin-top: 20px">
+        <span th:text="'一奖总人数:'+${totalPeople}+'人'"/>
+        <span th:text="'（共'+${totalPeriods}+'期）'"/>
+    </div>
     <div style="width: 50%;float: left;font-size: 0.4em;margin-top: 20px"><span th:text="'一奖总数:'+${total}+'元'"/></div>
     <div style="text-align: right;color: white;font-size: 0.3em"><a href="/letou/overview.html">查看统计数据</a></div>
+    <div style="width: 70%;margin: 0 auto;text-align: center;font-size: 0.3em;margin-top: 8px;background-color: #8c8c8c">
+        <button type="button" class="btn btn-warning" id="luck">试试手气</button>
+        <button type="button" class="btn btn-warning" id="clear">清空</button>
+        <div style="margin-top: 5px">
+            <ul id="result"></ul>
+        </div>
+    </div>
 </div>
 
 </body>
+<script>
+    $(function () {
+        $('#luck').click(function () {
+            $.ajax({url:'/letou/luck',success:function(result) {
+                console.log(result)
+                var nums = result.numbers;
+                var isThird = result.isThird;
+                /* <![CDATA[ */
+                var li = '<li>'
+                for(i in nums){
+                    var da;
+                    if(nums[i] < 10){
+                       da = '0'+nums[i]
+                    }else {
+                        da = nums[i]
+                    }
+                    li += '<span>'+ da + '&nbsp;</span>'
+                }
+                if(isThird > 0){
+                    li += '改号码中过三等奖了</li>'
+                }else {
+                    li += '</li>'
+                }
+                $('#result').append(li);
+                /* ]]> */
+            }})
+        });
+
+        $('#clear').click(function () {
+            $('#result').empty()
+        })
+    })
+</script>
 </html>

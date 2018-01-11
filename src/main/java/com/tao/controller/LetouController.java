@@ -2,6 +2,7 @@ package com.tao.controller;
 
 import com.google.common.collect.Lists;
 import com.tao.domain.Letou;
+import com.tao.domain.LetouVo;
 import com.tao.service.LetouService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,8 @@ public class LetouController {
         long total = letouService.getTotal(1);
         modelAndView.addObject("totalPeople",fmt.format(totalPeople));
         modelAndView.addObject("total",fmt.format(total));
+        long totalPeriods = letouService.getTotalPeriods();
+        modelAndView.addObject("totalPeriods",totalPeriods);
         return modelAndView;
     }
 
@@ -86,5 +89,16 @@ public class LetouController {
     @RequestMapping("overview.html")
     public String overViewhtml(){
         return "overview";
+    }
+
+    @RequestMapping("luck")
+    @ResponseBody
+    public LetouVo luck(){
+        LetouVo letouVo = new LetouVo();
+        List<Integer> luck = letouService.luck();
+        int thirdCount = letouService.getThirdCount(luck);
+        letouVo.setIsThird(thirdCount);
+        letouVo.setNumbers(luck);
+        return letouVo;
     }
 }

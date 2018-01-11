@@ -253,8 +253,14 @@ public class LetouService {
                 iterator.remove();
             }
         }
-
         return list.size();
     }
 
+    /**
+     * 获得总期数
+     * @return
+     */
+    public long getTotalPeriods(){
+        return letouMapper.getTotalPeriods();
+    }
 }

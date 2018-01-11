@@ -76,4 +76,6 @@ public interface LetouMapper {
     long getTotalCount4CWithLimit(@Param("num") int num,@Param("limit")Integer limit);
 
     List<Letou> getByS(@Param("num") int num);
+
+    long getTotalPeriods();
 }
