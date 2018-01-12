@@ -26,10 +26,9 @@ public class LetouController {
     @Resource
     private LetouService letouService;
 
-    @ResponseBody
-    @RequestMapping("/test")
-    public Object getById(){
-        return letouService.getById();
+    @RequestMapping("/")
+    public String def(){
+        return "redirect:/index.html";
     }
 
     @RequestMapping("/index.html")
