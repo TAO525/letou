@@ -3,7 +3,9 @@ package com.tao.controller;
 import com.google.common.collect.Lists;
 import com.tao.domain.Letou;
 import com.tao.domain.LetouVo;
+import com.tao.domain.User;
 import com.tao.service.LetouService;
+import com.tao.service.RedisService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +27,9 @@ public class LetouController {
 
     @Resource
     private LetouService letouService;
+
+    @Resource
+    private RedisService redisService;
 
     @RequestMapping("/")
     public String def(){
@@ -99,5 +104,16 @@ public class LetouController {
         letouVo.setIsThird(thirdCount);
         letouVo.setNumbers(luck);
         return letouVo;
+    }
+
+    @RequestMapping("cache")
+    @ResponseBody
+    public Object cache(){
+        User user = new User();
+        user.setName("dada");
+        user.setId(1);
+        redisService.set("u",user);
+        redisService.set("231","ddd");
+        return redisService.get("u");
     }
 }
