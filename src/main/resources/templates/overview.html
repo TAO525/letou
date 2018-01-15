@@ -23,13 +23,9 @@
 <body>
 <script th:src="@{echarts/echarts.min.js}"></script>
 
-<div class="form-group" style="width: 500px;margin-top: 20px;margin-left: 10px">
-    <label for="limit" class="ml15 control-label">统计期数</label>&nbsp;&nbsp;
-    <input id="limit" type="number"  placeholder="不输入则查询全部"/>
-    <button type="button" class="btn btn-primary btn-sm" id="search">查询</button>
-</div>
-<div id="main3" style="width: 80%;text-align: center;margin-bottom: 20px">
+<div id="main3" style="width: 80%;text-align: center;margin-bottom: 20px;margin-top: 10px">
     <table style="margin: 0 auto;width: 70%;">
+        <thead><tr><th colspan="3" style="text-align: center">十期总览</th></tr></thead>
         <tr><th>期数</th><th>结果</th><th>时间</th></tr>
         <tr th:each="hi,histat : ${news}" th:class="${histat.odd} ? 'odd':''">
             <td th:text="${hi.periods}+'期'"></td>
@@ -46,7 +42,11 @@
         </tr>
     </table>
 </div>
-
+<div class="form-group" style="width: 500px;margin-top: 20px;margin-left: 10px">
+    <label for="limit" class="ml15 control-label">统计期数</label>&nbsp;&nbsp;
+    <input id="limit" type="number"  placeholder="不输入则查询全部"/>
+    <button type="button" class="btn btn-primary btn-sm" id="search">查询</button>
+</div>
 <!-- 为ECharts准备一个具备大小（宽高）的DOM容器-->
 <div id='main' style='width:1800px;height:400px;margin-top: 20px'></div>
 
