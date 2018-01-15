@@ -6,6 +6,19 @@
     <script th:src='@{jquery-1.10.2.min.js}'></script>
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link type="favicon" rel="shortcut icon" th:href="@{favicon.ico}" />
+    <style>
+        .blueball{
+            color: #2aabd2;
+        }
+
+        .redball{
+            color: red;
+        }
+
+        .odd {
+            background-color: #DDDDDD;
+        }
+    </style>
 </head>
 <body>
 <script th:src="@{echarts/echarts.min.js}"></script>
@@ -15,10 +28,31 @@
     <input id="limit" type="number"  placeholder="不输入则查询全部"/>
     <button type="button" class="btn btn-primary btn-sm" id="search">查询</button>
 </div>
+<div id="main3" style="width: 80%;text-align: center;margin-bottom: 20px">
+    <table style="margin: 0 auto;width: 70%;">
+        <tr><th>期数</th><th>结果</th><th>时间</th></tr>
+        <tr th:each="hi,histat : ${news}" th:class="${histat.odd} ? 'odd':''">
+            <td th:text="${hi.periods}+'期'"></td>
+            <td>
+                <span th:text="${hi.c1}" class="blueball"></span>
+                <span th:text="${hi.c2}" class="blueball"></span>
+                <span th:text="${hi.c3}" class="blueball"></span>
+                <span th:text="${hi.c4}" class="blueball"></span>
+                <span th:text="${hi.c5}" class="blueball"></span>
+                <span th:text="${hi.c6}" class="blueball"></span>
+                <span th:text="${hi.s1}" class="redball"></span>
+            </td>
+            <td th:text="${#dates.format(hi.time, 'yyyy-MM-dd')}"></td>
+        </tr>
+    </table>
+</div>
+
 <!-- 为ECharts准备一个具备大小（宽高）的DOM容器-->
 <div id='main' style='width:1800px;height:400px;margin-top: 20px'></div>
 
 <div id='main2' style='height:400px;margin-top: 50px;width: 1000px'></div>
+
+
 </body>
 <script th:src='@{echarts/macarons.js}'></script>
 <script th:src='@{echarts/shine.js}'></script>

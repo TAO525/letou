@@ -6,7 +6,10 @@ import com.tao.domain.LetouVo;
 import com.tao.domain.User;
 import com.tao.service.LetouService;
 import com.tao.service.RedisService;
+import com.tao.utils.LetouConstant;
+import com.tao.utils.LetouUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -91,7 +94,15 @@ public class LetouController {
     }
 
     @RequestMapping("overview.html")
-    public String overViewhtml(){
+    public String overViewhtml(Model model){
+        List<Letou> news = Lists.newArrayList();
+        if(redisService.exists(LetouConstant.NEWS_KEY)){
+             news = (List<Letou>) redisService.get(LetouConstant.NEWS_KEY);
+        }else {
+            news = letouService.getNews(LetouConstant.DEFAULT_NEWS_LIMIT);
+            redisService.set(LetouConstant.NEWS_KEY, news, LetouUtil.getSecondsForNew());
+        }
+        model.addAttribute("news",news);
         return "overview";
     }
 
@@ -104,6 +115,18 @@ public class LetouController {
         letouVo.setIsThird(thirdCount);
         letouVo.setNumbers(luck);
         return letouVo;
+    }
+
+    @ResponseBody
+    @RequestMapping("news")
+    public List<Letou> getNews(){
+        if(redisService.exists(LetouConstant.NEWS_KEY)){
+            return (List<Letou>) redisService.get(LetouConstant.NEWS_KEY);
+        }else {
+            List<Letou> news = letouService.getNews(LetouConstant.DEFAULT_NEWS_LIMIT);
+            redisService.set(LetouConstant.NEWS_KEY, news, LetouUtil.getSecondsForNew());
+            return news;
+        }
     }
 
     @RequestMapping("cache")
