@@ -5,7 +5,8 @@ import com.tao.domain.Letou;
 import com.tao.domain.LetouLog;
 import com.tao.mapper.LetouLogMapper;
 import com.tao.mapper.LetouMapper;
-import org.apache.juli.logging.LogFactory;
+import com.tao.utils.LetouConstant;
+import com.tao.utils.LetouUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ import static com.tao.utils.LetouUtil.*;
  */
 @Service
 public class LetouService {
+
+    @Resource
+    private RedisService redisService;
 
     Logger logger = LoggerFactory.getLogger(LetouService.class);
 
@@ -41,14 +45,19 @@ public class LetouService {
     @Resource
     private LetouLogMapper letouLogMapper;
 
-    public Letou getById(){
-        Letou letou = new Letou();
-        letou.setId(1L);
-        return letouMapper.getList(letou).get(0);
+    public Letou getById(long id){
+        return letouMapper.selectByPrimaryKey(id);
     }
 
     public Letou getNew(){
-        return letouMapper.getNew();
+        boolean exists = redisService.exists(LetouConstant.NEW_KEY);
+        if(exists){
+            return (Letou)redisService.get(LetouConstant.NEW_KEY);
+        }else {
+            Letou aNew = letouMapper.getNew();
+            redisService.set(LetouConstant.NEW_KEY,aNew, LetouUtil.getSecondsForNew());//到明天8点20分
+            return aNew;
+        }
     }
 
     public List<Letou> getNews(int limitnum){
@@ -61,7 +70,15 @@ public class LetouService {
      * @return
      */
     public long getTotalPeople(int type){
-        return letouMapper.getTotalPeople(type);
+        String key = LetouConstant.TOTAL_PEOPLE_KEY+"_"+String.valueOf(type);
+        boolean exists = redisService.exists(key);
+        if(exists){
+            return  Long.valueOf(String.valueOf(redisService.get(key)));
+        }else {
+            long totalPeople = letouMapper.getTotalPeople(type);
+            redisService.set(key,totalPeople, LetouUtil.getSecondsForNew());//到明天8点20分
+            return totalPeople;
+        }
     }
 
     /**
@@ -70,7 +87,15 @@ public class LetouService {
      * @return
      */
     public long getTotal(int type){
-        return letouMapper.getTotal(type);
+        String key = LetouConstant.TOTAL_KEY+"_"+String.valueOf(type);
+        boolean exists = redisService.exists(key);
+        if(exists){
+            return Long.valueOf(String.valueOf(redisService.get(key)));
+        }else {
+            long total = letouMapper.getTotal(type);
+            redisService.set(key,total, LetouUtil.getSecondsForNew());//到明天8点20分
+            return total;
+        }
     }
 
     /**
@@ -93,11 +118,11 @@ public class LetouService {
         int c5 = Integer.parseInt(aNew.getC5());
         int c6 = Integer.parseInt(aNew.getC6());
         Set<Integer> excludeBlue = Sets.newHashSet(c1, c2, c3, c4, c5, c6);
-        //默认五期
-        List<Letou> news = getNews(5);
+        //默认三期
+        List<Letou> news = getNews(3);
         Set<Integer> excludeRed = new HashSet<>();
         for (Letou i : news){
-            excludeBlue.add(Integer.parseInt(i.getS1()));
+            excludeRed.add(Integer.parseInt(i.getS1()));
         }
         Sets.SetView<Integer> diffblue = Sets.difference(ALLBLUE, excludeBlue);
         Sets.SetView<Integer> diffred = Sets.difference(ALLRED,excludeRed);
@@ -261,6 +286,14 @@ public class LetouService {
      * @return
      */
     public long getTotalPeriods(){
-        return letouMapper.getTotalPeriods();
+        String key = LetouConstant.TOTAL_PERIODS_KEY;
+        boolean exists = redisService.exists(key);
+        if(exists){
+            return Long.valueOf(String.valueOf(redisService.get(key)));
+        }else {
+            long total = letouMapper.getTotalPeriods();
+            redisService.set(key,total, LetouUtil.getSecondsForNew());//到明天8点20分
+            return total;
+        }
     }
 }
