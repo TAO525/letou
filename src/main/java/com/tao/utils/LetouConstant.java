@@ -22,4 +22,7 @@ public final class LetouConstant {
 
     //历史数据
     public static final String NEWS_KEY = "history";
+
+    //redis中上次最新数据的游标
+    public static final String LOG_DEX = "log_dex";
 }

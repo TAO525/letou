@@ -238,4 +238,9 @@
      select * from letou_log
     <include refid="sql_where" />
   </select>
+
+  <select id="getListGtId" resultMap="BaseResultMap" parameterType="long" >
+    select * from letou_log
+    WHERE id > #{id}
+  </select>
 </mapper>

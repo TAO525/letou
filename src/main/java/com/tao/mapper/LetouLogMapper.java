@@ -1,6 +1,7 @@
 package com.tao.mapper;
 
 import com.tao.domain.LetouLog;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -54,4 +55,6 @@ public interface LetouLogMapper {
     int updateByPrimaryKey(LetouLog record);
 
     List<LetouLog> getList(LetouLog LetouLog);
+
+    List<LetouLog> getListGtId(@Param("id")long id);
 }
