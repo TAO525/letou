@@ -129,14 +129,13 @@ public class LetouController {
         }
     }
 
-    @RequestMapping("cache")
-    @ResponseBody
-    public Object cache(){
-        User user = new User();
-        user.setName("dada");
-        user.setId(1);
-        redisService.set("u",user);
-        redisService.set("231","ddd");
-        return redisService.get("u");
+    @RequestMapping("feedback.html")
+    public String feedback(){
+        return "feedback";
+    }
+
+    @RequestMapping("login")
+    public String login(){
+        return "login";
     }
 }
