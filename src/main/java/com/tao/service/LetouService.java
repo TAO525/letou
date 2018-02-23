@@ -1,6 +1,7 @@
 package com.tao.service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.tao.domain.Letou;
 import com.tao.domain.LetouLog;
 import com.tao.mapper.LetouLogMapper;
@@ -10,11 +11,11 @@ import com.tao.utils.LetouUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import com.google.common.collect.Sets;
 
 import javax.annotation.Resource;
 import java.util.*;
-import static com.tao.utils.LetouUtil.*;
+
+import static com.tao.utils.LetouUtil.parseInt;
 
 /**
  * @Author TAO

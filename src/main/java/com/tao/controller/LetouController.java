@@ -3,7 +3,6 @@ package com.tao.controller;
 import com.google.common.collect.Lists;
 import com.tao.domain.Letou;
 import com.tao.domain.LetouVo;
-import com.tao.domain.User;
 import com.tao.service.LetouService;
 import com.tao.service.RedisService;
 import com.tao.utils.LetouConstant;
@@ -16,9 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
