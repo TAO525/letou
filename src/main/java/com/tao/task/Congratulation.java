@@ -2,7 +2,10 @@ package com.tao.task;
 
 import com.tao.domain.Letou;
 import com.tao.domain.LetouLog;
+import com.tao.domain.LogFeedback;
 import com.tao.mapper.LetouLogMapper;
+import com.tao.mapper.LogFeedbackMapper;
+import com.tao.service.FeedBackService;
 import com.tao.service.LetouService;
 import com.tao.service.RedisService;
 import com.tao.utils.LetouConstant;
@@ -11,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import static com.tao.utils.LetouUtil.*;
 
@@ -31,7 +37,7 @@ public class Congratulation {
     private RedisService redisService;
 
     @Autowired
-    private LetouLogMapper letouLogMapper;
+    private FeedBackService feedBackService;
 
     @Scheduled(cron = "0 0/1 * * * *")
     public void test(){
@@ -45,13 +51,14 @@ public class Congratulation {
     // TODO: 2018/2/22
     @Scheduled(initialDelay = 60 * 1000,fixedDelay = 60*60*1000)
     public void scan(){
+        logger.info("反馈定时任务开始");
         Letou letou = letouService.getNew();
         Object logDex = redisService.get(LetouConstant.LOG_DEX);
         long id = 0;
         if(logDex != null){
             id = Long.valueOf(String.valueOf(logDex));
         }
-        List<LetouLog> listGtId = letouLogMapper.getListGtId(id);
+        List<LetouLog> listGtId = letouService.getListGtId(id);
         int size = listGtId.size();
         if(size > 0){
             id += size;
@@ -64,11 +71,22 @@ public class Congratulation {
             int forthCount = forthPrize(letou, listGtId);
             int fifthCount = fifthPrize(letou, listGtId);
             int sixthCount = sixthPrize(letou, listGtId);
-            System.out.println(firstCount+"__"+secondCount+"__"+thirdCount);
-            System.out.println("----"+forthCount+"__"+fifthCount+"__"+sixthCount);
-            // TODO: 2018/2/23 记录入库
+            System.out.println(firstCount+"__"+secondCount+"__"+thirdCount
+                    +"----"+forthCount+"__"+fifthCount+"__"+sixthCount);
+            //记录入库
+            LogFeedback logFeedback = new LogFeedback(firstCount,secondCount,thirdCount,forthCount,fifthCount,sixthCount);
+            logFeedback.setPeriods(letou.getPeriods());
+            logFeedback.setTime(letou.getTime());
+            logFeedback.setTotal(size);
+            int count = fifthCount+secondCount+thirdCount+forthCount+fifthCount+ sixthCount;
+            System.out.println(count +"==========="+size);
+            BigDecimal persent = new BigDecimal((float) count / size).setScale(4,BigDecimal.ROUND_HALF_UP);
+            logFeedback.setPercent(persent);
+            logFeedback.setDel("n");
+            logFeedback.setCreateTime(new Date());
+            feedBackService.addFeedBack(logFeedback);
+            logger.info("反馈定时任务结束");
         }
-
     }
 
 }

@@ -1,5 +1,7 @@
 package com.tao;
 
+import com.tao.domain.LogFeedback;
+import com.tao.mapper.LogFeedbackMapper;
 import com.tao.service.LetouService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,9 @@ public class LetouApplicationTests {
 
 	@Resource
 	private LetouService letouService;
+
+	@Resource
+	private LogFeedbackMapper logFeedbackMapper;
 
 	@Test
 	public void contextLoads() {
@@ -72,4 +77,9 @@ public class LetouApplicationTests {
 		System.out.println(letouService.getOneCount(integers));
 	}
 
+	@Test
+	public void test_feedback(){
+		List<LogFeedback> list = logFeedbackMapper.getList(new LogFeedback());
+		System.out.println(list);
+	}
 }

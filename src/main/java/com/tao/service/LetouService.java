@@ -296,4 +296,11 @@ public class LetouService {
             return total;
         }
     }
+
+    /**
+     * 获得大于id数的日志
+     */
+    public List<LetouLog> getListGtId(long id){
+        return letouLogMapper.getListGtId(id);
+    }
 }
