@@ -3,8 +3,6 @@ package com.tao.task;
 import com.tao.domain.Letou;
 import com.tao.domain.LetouLog;
 import com.tao.domain.LogFeedback;
-import com.tao.mapper.LetouLogMapper;
-import com.tao.mapper.LogFeedbackMapper;
 import com.tao.service.FeedBackService;
 import com.tao.service.LetouService;
 import com.tao.service.RedisService;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
 import static com.tao.utils.LetouUtil.*;
 
 /**
