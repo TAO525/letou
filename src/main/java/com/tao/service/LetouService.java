@@ -301,7 +301,7 @@ public class LetouService {
     /**
      * 获得大于id数的日志
      */
-    public List<LetouLog> getListGtId(long id){
+    public List<LetouLog> getLogListGtId(long id){
         return letouLogMapper.getListGtId(id);
     }
 }

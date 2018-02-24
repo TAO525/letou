@@ -38,17 +38,17 @@ public class Congratulation {
     @Autowired
     private FeedBackService feedBackService;
 
-    @Scheduled(cron = "0 0/1 * * * *")
+  /*  @Scheduled(cron = "0 0/1 * * * MON,WED,SAT")
     public void test(){
         System.out.println("hello world");
-    }
+    }*/
 
     /**
      * 查看历史数据中中奖信息
      * 每周1 3 5 晚上跑
      */
-    // TODO: 2018/2/22
-    @Scheduled(initialDelay = 60 * 1000,fixedDelay = 60*60*1000)
+//    @Scheduled(initialDelay = 60 * 1000,fixedDelay = 60*60*1000)
+    @Scheduled(cron = "0 0 21 * * MON,WED,FRI")
     public void scan(){
         logger.info("反馈定时任务开始");
         Letou letou = letouService.getNew();
@@ -57,7 +57,7 @@ public class Congratulation {
         if(logDex != null){
             id = Long.valueOf(String.valueOf(logDex));
         }
-        List<LetouLog> listGtId = letouService.getListGtId(id);
+        List<LetouLog> listGtId = letouService.getLogListGtId(id);
         int size = listGtId.size();
         if(size > 0){
             id += size;
@@ -70,7 +70,7 @@ public class Congratulation {
             int forthCount = forthPrize(letou, listGtId);
             int fifthCount = fifthPrize(letou, listGtId);
             int sixthCount = sixthPrize(letou, listGtId);
-            System.out.println(firstCount+"__"+secondCount+"__"+thirdCount
+            logger.info(firstCount+"__"+secondCount+"__"+thirdCount
                     +"----"+forthCount+"__"+fifthCount+"__"+sixthCount);
             //记录入库
             LogFeedback logFeedback = new LogFeedback(firstCount,secondCount,thirdCount,forthCount,fifthCount,sixthCount);

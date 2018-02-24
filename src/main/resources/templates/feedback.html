@@ -8,6 +8,9 @@
             padding: 0;
             list-style-type: none;
         }
+        .red{
+            background-color: #d43f3a!important;
+        }
     </style>
 </head>
 <body>
@@ -28,7 +31,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${backs}">
+        <tr th:each="item : ${backs}" th:class="${item.p1 > 0 or item.p2 > 0 or item.p3 > 0} ? 'red'">
             <td th:text="${item.periods}"></td>
             <td th:text="${#dates.format(item.time, 'yyyy-MM-dd')}"></td>
             <td th:text="${item.p1}"></td>
