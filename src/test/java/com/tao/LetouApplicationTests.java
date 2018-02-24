@@ -78,7 +78,7 @@ public class LetouApplicationTests {
 
 	@Test
 	public void test_feedback(){
-		List<LogFeedback> list = logFeedbackMapper.getList(new LogFeedback());
-		System.out.println(list);
+		List<LogFeedback> list = logFeedbackMapper.getListDesc();
+		System.out.println(list.get(0).getId());
 	}
 }

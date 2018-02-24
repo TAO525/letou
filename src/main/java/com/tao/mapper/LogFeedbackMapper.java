@@ -55,4 +55,6 @@ public interface LogFeedbackMapper {
     int updateByPrimaryKey(LogFeedback record);
 
     List<LogFeedback> getList(LogFeedback LogFeedback);
+
+    List<LogFeedback> getListDesc();
 }

@@ -1,12 +1,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>测试</title>
+    <title>反馈报告</title>
+    <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+    </style>
 </head>
 <body>
-
-hello world!
-<form th:action="@{/logout}" method="post">
-    <input type="submit" class="btn btn-primary" value="注销"/>
-</form>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Periods</th>
+            <th>Date</th>
+            <th>p1</th>
+            <th>p2</th>
+            <th>p3</th>
+            <th>p4</th>
+            <th>p5</th>
+            <th>p6</th>
+            <th>Size</th>
+            <th>Percent</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${backs}">
+            <td th:text="${item.periods}"></td>
+            <td th:text="${#dates.format(item.time, 'yyyy-MM-dd')}"></td>
+            <td th:text="${item.p1}"></td>
+            <td th:text="${item.p2}"></td>
+            <td th:text="${item.p3}"></td>
+            <td th:text="${item.p4}"></td>
+            <td th:text="${item.p5}"></td>
+            <td th:text="${item.p6}"></td>
+            <td th:text="${item.total}"></td>
+            <td th:text="${#numbers.formatDecimal(item.percent, 0, 2)}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" class="btn btn-primary" value="注销"/>
+    </form>
+</div>
 </body>
 </html>

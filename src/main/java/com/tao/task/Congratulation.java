@@ -78,14 +78,14 @@ public class Congratulation {
             logFeedback.setTime(letou.getTime());
             logFeedback.setTotal(size);
             int count = fifthCount+secondCount+thirdCount+forthCount+fifthCount+ sixthCount;
-            System.out.println(count +"==========="+size);
+//            System.out.println(count +"==========="+size);
             BigDecimal persent = new BigDecimal((float) count / size).setScale(4,BigDecimal.ROUND_HALF_UP);
             logFeedback.setPercent(persent);
             logFeedback.setDel("n");
             logFeedback.setCreateTime(new Date());
             feedBackService.addFeedBack(logFeedback);
-            logger.info("反馈定时任务结束");
         }
+        logger.info("反馈定时任务结束");
     }
 
 }

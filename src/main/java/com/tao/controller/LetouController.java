@@ -3,6 +3,8 @@ package com.tao.controller;
 import com.google.common.collect.Lists;
 import com.tao.domain.Letou;
 import com.tao.domain.LetouVo;
+import com.tao.domain.LogFeedback;
+import com.tao.service.FeedBackService;
 import com.tao.service.LetouService;
 import com.tao.service.RedisService;
 import com.tao.utils.LetouConstant;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,9 @@ public class LetouController {
 
     @Resource
     private RedisService redisService;
+
+    @Resource
+    private FeedBackService feedBackService;
 
     @RequestMapping("/")
     public String def(){
@@ -127,7 +133,9 @@ public class LetouController {
     }
 
     @RequestMapping("feedback.html")
-    public String feedback(){
+    public String feedback(Model model){
+        List<LogFeedback> list = feedBackService.getList();
+        model.addAttribute("backs",list);
         return "feedback";
     }
 
