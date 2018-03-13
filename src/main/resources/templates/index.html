@@ -75,14 +75,13 @@
         <span style="color: deepskyblue" th:each="blue: ${blues}" th:text="${blue}"></span>
         <span style="color: red" th:text="${red}"></span>
     </div>
-    <div style="width: 49%;float: left;font-size: 0.4em;margin-top: 20px">
+    <div style="width: 49%;float: left;font-size: 0.4em;margin-top: 20px;display: block">
         <span th:text="'一奖总人数:'+${totalPeople}+'人'"/>
         <span th:text="'（共'+${totalPeriods}+'期）'"/>
     </div>
-    <div style="width: 50%;float: left;font-size: 0.4em;margin-top: 20px"><span th:text="'一奖总数:'+${total}+'元'"/></div>
+    <div style="width: 50%;float: left;font-size: 0.4em;margin-top: 20px;display: block"><span th:text="'一奖总数:'+${total}+'元'"/></div>
     <!--<div style="text-align: right;color: white;font-size: 0.3em"><a href="/letou/overview.html">查看统计数据</a></div>-->
-    <div style="text-align: right;color: white;font-size: 0.3em"><span>&nbsp;</span></div>
-    <div style="width: 70%;margin: 0 auto;text-align: center;font-size: 0.3em;margin-top: 8px;background-color: #8c8c8c">
+    <div style="width: 70%;margin: 8px auto;text-align: center;font-size: 0.3em;background-color: #8c8c8c">
         <button type="button" class="btn btn-warning" id="luck">试试手气</button>
         <button type="button" class="btn btn-warning" id="clear">清空</button>
         <div style="margin-top: 5px">
