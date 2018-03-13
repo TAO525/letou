@@ -6,6 +6,7 @@
     <script th:src='@{jquery-1.10.2.min.js}'></script>
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link type="favicon" rel="shortcut icon" th:href="@{favicon.ico}" />
+    <link th:href="@{style.css}" rel="stylesheet"/>
     <style>
         .blueball{
             color: #2aabd2;
@@ -22,7 +23,22 @@
 </head>
 <body>
 <script th:src="@{echarts/echarts.min.js}"></script>
-
+<div class='card-holder'>
+    <div class='card-wrapper'>
+        <a href='/letou/index.html'>
+            <div class='card bg-01'>
+                <span class='card-content'>首页</span>
+            </div>
+        </a>
+    </div>
+    <div class='card-wrapper'>
+        <a href='http://www.baidu.com'>
+            <div class='card bg-02'>
+                <span class='card-content'></span>
+            </div>
+        </a>
+    </div>
+</div>
 <div id="main3" style="width: 80%;text-align: center;margin-bottom: 20px;margin-top: 10px">
     <table style="margin: 0 auto;width: 70%;">
         <thead><tr><th colspan="3" style="text-align: center">十期总览</th></tr></thead>

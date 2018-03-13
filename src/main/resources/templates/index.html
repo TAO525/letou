@@ -10,6 +10,7 @@
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link type="favicon" rel="shortcut icon" th:href="@{favicon.ico}" />
     <link th:href="@{bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <link th:href="@{style.css}" rel="stylesheet"/>
     <style>
         body {
             background: url(/letou/images/bg.png) repeat;
@@ -23,6 +24,50 @@
     </style>
 </head>
 <body>
+<div class='card-holder'>
+    <div class='card-wrapper'>
+        <a href='/letou/overview.html'>
+            <div class='card bg-01'>
+                <span class='card-content'>查看统计数据</span>
+            </div>
+        </a>
+    </div>
+    <div class='card-wrapper'>
+        <a href='http://www.baidu.com'>
+            <div class='card bg-02'>
+                <span class='card-content'></span>
+            </div>
+        </a>
+    </div>
+   <!-- <div class='card-wrapper'>
+        <a href='#'>
+            <div class='card bg-03'>
+                <span class='card-content'>menu item #3</span>
+            </div>
+        </a>
+    </div>
+    <div class='card-wrapper'>
+        <a href='#'>
+            <div class='card bg-04'>
+                <span class='card-content'>item #4</span>
+            </div>
+        </a>
+    </div>
+    <div class='card-wrapper'>
+        <a href='#'>
+            <div class='card bg-05'>
+                <span class='card-content'>menu item #5</span>
+            </div>
+        </a>
+    </div>
+    <div class='card-wrapper'>
+        <a href='#'>
+            <div class='card bg-06'>
+                <span class='card-content'>long menu item #1</span>
+            </div>
+        </a>
+    </div>-->
+</div>
 
 <div style="color: white ;width: 70% ;height: 50%; margin: 0 auto;margin-top: 100px; font-size: 4em;">
     <span style="color: white;font-size: 0.5em" th:text="${periods}+':'"></span>
@@ -35,7 +80,8 @@
         <span th:text="'（共'+${totalPeriods}+'期）'"/>
     </div>
     <div style="width: 50%;float: left;font-size: 0.4em;margin-top: 20px"><span th:text="'一奖总数:'+${total}+'元'"/></div>
-    <div style="text-align: right;color: white;font-size: 0.3em"><a href="/letou/overview.html">查看统计数据</a></div>
+    <!--<div style="text-align: right;color: white;font-size: 0.3em"><a href="/letou/overview.html">查看统计数据</a></div>-->
+    <div style="text-align: right;color: white;font-size: 0.3em"><span>&nbsp;</span></div>
     <div style="width: 70%;margin: 0 auto;text-align: center;font-size: 0.3em;margin-top: 8px;background-color: #8c8c8c">
         <button type="button" class="btn btn-warning" id="luck">试试手气</button>
         <button type="button" class="btn btn-warning" id="clear">清空</button>
