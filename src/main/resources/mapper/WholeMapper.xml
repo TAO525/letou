@@ -62,4 +62,59 @@
       )
   </insert>
 
+  <update id="increase" parameterType="com.tao.domain.Whole">
+    UPDATE whole_#{mod}
+    set modify_time = now(),
+    <choose>
+      <when test="prize ==1 ">
+        p1 = p1 + 1
+      </when >
+      <when test="prize ==2 ">
+        p2 = p2 + 1
+      </when >
+      <when test="prize ==3 ">
+        p3 = p3 + 1
+      </when >
+      <when test="prize ==4 ">
+        p4 = p4 + 1
+      </when >
+      <when test="prize ==5 ">
+        p5 = p5 + 1
+      </when >
+      <when test="prize ==6 ">
+        p6 = p6 + 1
+      </when >
+      <otherwise>
+      </otherwise>
+    </choose>
+    where c1 = #{c1} and c2 =#{c2} and c3 = #{c3} and c4=#{c4} and c5 = #{c5} and c6 = #{c6}
+    and s1 = #{s1}
+  </update>
+
+  <update id="fixed" parameterType="com.tao.domain.Whole">
+    UPDATE whole_#{mod}
+    set
+    <if test="p1 != 0">
+      p1 = #{p1},
+    </if>
+    <if test="p2 != 0">
+      p2 = #{p2},
+    </if>
+    <if test="p3 != 0">
+      p3 = #{p3},
+    </if>
+    <if test="p4 != 0">
+      p4 = #{p4},
+    </if>
+    <if test="p5 != 0">
+      p5 = #{p5},
+    </if>
+    <if test="p6 != 0">
+      p6 = #{p6},
+    </if>
+    modify_time = now()
+    where c1 = #{c1} and c2 =#{c2} and c3 = #{c3} and c4=#{c4} and c5 = #{c5} and c6 = #{c6}
+    and s1 = #{s1}
+  </update>
+
 </mapper>

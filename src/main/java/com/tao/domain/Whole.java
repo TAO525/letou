@@ -23,6 +23,9 @@ public class Whole {
 
     private Integer s1;
 
+    //增加几等奖
+    private Integer prize;
+
     //创建时间
     private Date createTime;
 
@@ -197,5 +200,13 @@ public class Whole {
 
     public void setMod(Integer mod) {
         this.mod = mod;
+    }
+
+    public Integer getPrize() {
+        return prize;
+    }
+
+    public void setPrize(Integer prize) {
+        this.prize = prize;
     }
 }

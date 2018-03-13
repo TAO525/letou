@@ -5,7 +5,6 @@ import com.tao.domain.Whole;
 import com.tao.mapper.LogFeedbackMapper;
 import com.tao.service.LetouService;
 import com.tao.service.WholeService;
-import org.apache.ibatis.annotations.Case;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,8 +15,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -111,7 +108,7 @@ public class LetouApplicationTests {
 		int s1;
 		int count = 0;
 		Instant now = Instant.now();
-		ExecutorService executorService = Executors.newFixedThreadPool(10);
+//		ExecutorService executorService = Executors.newFixedThreadPool(10);
 		for(s1=1;s1<=16;s1++) {
 			for (c1 = 1; c1 <= 28; c1++) {
 				for (c2 = c1 + 1; c2 <= 29; c2++) {
@@ -120,13 +117,6 @@ public class LetouApplicationTests {
 							for (c5 = c4 + 1; c5 <= 32; c5++) {
 								for (c6 = c5 + 1; c6 <= 33; c6++) {
 									count++;
-									final Whole whole = new Whole(c1, c2, c3, c4, c5, c6, s1);
-//									int mod = (c1+c2+c3+c4+c5+c6+s1)% 10;
-									executorService.submit(new Runnable() {
-										@Override
-										public void run() {
-											wholeService.insert(whole);										}
-									});
 
 								}
 							}

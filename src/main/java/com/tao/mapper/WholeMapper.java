@@ -4,8 +4,6 @@ import com.tao.domain.LetouLog;
 import com.tao.domain.Whole;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface WholeMapper {
 
     /**
@@ -26,4 +24,14 @@ public interface WholeMapper {
     LetouLog selectByPrimaryKey(@Param("id") Long id,@Param("mod")Integer mod);
 
 
+    /**
+     * 增加中奖数 +1
+     */
+     void increase(Whole wholeAdd);
+
+    /**
+     * 更正数据
+     * @param wholeAdd
+     */
+    void fixed(Whole wholeAdd);
 }

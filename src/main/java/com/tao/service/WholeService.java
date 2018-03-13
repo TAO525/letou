@@ -5,8 +5,6 @@ import com.tao.mapper.WholeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 /**
  * @Author TAO
  * @Date 2018/3/13 13:32
@@ -18,15 +16,28 @@ public class WholeService {
     private WholeMapper wholeMapper;
 
     public void insert(Whole whole){
-        Integer c1 = whole.getC1();
-        Integer c2 = whole.getC1();
-        Integer c3 = whole.getC3();
-        Integer c4 = whole.getC4();
-        Integer c5 = whole.getC5();
-        Integer c6 = whole.getC6();
+
         Integer s1 = whole.getS1();
-        int mod = (c1+c2+c3+c4+c5+c6+s1)%10;
+        int mod = s1%16;
         whole.setMod(mod);
         wholeMapper.insert(whole);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(1%16);
+    }
+
+    public void increse(Whole wholeAdd){
+        Integer s1 = wholeAdd.getS1();
+        int mod = s1%16;
+        wholeAdd.setMod(mod);
+        wholeMapper.increase(wholeAdd);
+    }
+
+    public void fixed(Whole wholeAdd){
+        Integer s1 = wholeAdd.getS1();
+        int mod = s1%16;
+        wholeAdd.setMod(mod);
+        wholeMapper.fixed(wholeAdd);
     }
 }
