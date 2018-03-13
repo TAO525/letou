@@ -48,7 +48,7 @@ public class Congratulation {
      * 每周1 3 5 晚上跑
      */
 //    @Scheduled(initialDelay = 60 * 1000,fixedDelay = 60*60*1000)
-    @Scheduled(cron = "0 0 21 * * MON,WED,FRI")
+    @Scheduled(cron = "0 10 8 * * MON,WED,FRI")
     public void scan(){
         logger.info("反馈定时任务开始");
         Letou letou = letouService.getNew();
