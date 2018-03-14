@@ -21,7 +21,7 @@ public interface WholeMapper {
      *
      * @mbggenerated Mon Jan 08 13:51:28 CST 2018
      */
-    LetouLog selectByPrimaryKey(@Param("id") Long id,@Param("mod")Integer mod);
+    Whole selectByPrimaryKey(@Param("id") Long id,@Param("mod")Integer mod);
 
 
     /**
@@ -34,4 +34,11 @@ public interface WholeMapper {
      * @param wholeAdd
      */
     void fixed(Whole wholeAdd);
+
+    /**
+     * 查询号码历史表现情况
+     * @param whole
+     * @return
+     */
+    Whole getBySelect(Whole whole);
 }

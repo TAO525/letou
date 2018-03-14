@@ -1,0 +1,175 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>测一测</title>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script th:src='@{jquery-1.10.2.min.js}'></script>
+    <script th:src='@{bootstrap/js/bootstrap.js}'></script>
+    <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}"/>
+    <link th:href="@{style.css}" rel="stylesheet"/>
+    <link type="favicon" rel="shortcut icon" th:href="@{favicon.ico}" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        .red{
+            background-color: #d43f3a!important;
+        }
+
+        .form-control{
+            width: 40% !important;
+        }
+        .input-group-addon{
+            color: red;
+        }
+    </style>
+</head>
+<body style="overflow: scroll">
+<div class='card-holder'>
+    <div class='card-wrapper'>
+        <a href='/letou/index.html'>
+            <div class='card bg-01'>
+                <span class='card-content'>首页</span>
+            </div>
+        </a>
+    </div>
+    <div class='card-wrapper'>
+        <a href='http://www.baidu.com'>
+            <div class='card bg-02'>
+                <span class='card-content'>统计页</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="container" style="width: 88%;">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th width="30%">输入号码</th>
+            <th>历史中奖数据</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <div class="input-group">
+                    <span class="input-group-addon">球</span>
+                    <input type="text" class="form-control rb" />
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">球</span>
+                    <input type="text" class="form-control rb"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">球</span>
+                    <input type="text" class="form-control rb"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">球</span>
+                    <input type="text" class="form-control rb"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">球</span>
+                    <input type="text" class="form-control rb"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">球</span>
+                    <input type="text" class="form-control rb"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"  style="color: #2aabd2">球</span>
+                    <input type="text" class="form-control bb"/>
+                </div>
+            </td>
+            <td>
+                <table class="table">
+                    <!--<caption>基本的表格布局</caption>-->
+                    <thead>
+                    <tr>
+                        <th>一等奖</th>
+                        <th>二等奖</th>
+                        <th>三等奖</th>
+                        <th>四等奖</th>
+                        <th>五等奖</th>
+                        <th>六等奖</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="result">
+                        <td id="p1">Tanmay</td>
+                        <td id="p2">Bangalore</td>
+                        <td id="p3">Tanmay</td>
+                        <td id="p4">Bangalore</td>
+                        <td id="p5">Tanmay</td>
+                        <td id="p6">Bangalore</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+        <tr >
+            <td th:colspan="2" style="text-align: center">
+                <button type="button" class="btn btn-primary" id="search" data-container="body" data-toggle="popover" data-placement="top"
+                        data-content="请输入正确的组合" data-trigger="">查询</button>
+                <button type="button" class="btn btn-primary" id="clear">清空</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script>
+    $(function () {
+        /*<![CDATA[*/
+        $("#search").click(
+            function () {
+                var par = [];
+                $('.rb').each(function () {
+                    var val = $(this).val();
+                    if(val != '' && !isNaN(val) && parseInt(val) > 0 && parseInt(val)<=33)
+                        par.push(val);
+                })
+                var val2 = $('.bb').val();
+                if(val2 != '' && !isNaN(val2)) {
+                    if (parseInt(val2) > 0 && parseInt(val2) <= 16) {
+                        par.push(val2);
+                    }
+                }
+                if(par.length != 7){
+                    $("[data-toggle='popover']").popover('show');
+                    return;
+                }else {
+                    $("[data-toggle='popover']").popover('destroy');//隐藏提示
+                }
+
+                /*$.ajax({
+                    url: '/letou/pandect',
+                    type: 'POST',
+                   /!* data: {
+                        nums : JSON.stringify(par)
+                    },
+                    contentType:"application/json charset=utf-8",*!/
+                    success: function (data, status) {
+                       alert(data);
+                    }
+                });*/
+                $.ajax({url:"/letou/pandect",data: {nums : par},contentType:"application/json charset=utf-8",success:function(result){
+                    alert(result)
+                }});
+            })
+
+        $("#clear").click(
+            function () {
+                $(".form-control").val('');
+                $('#result>td').text('');
+            }
+        )
+        /*]]>*/
+    })
+</script>
+</html>

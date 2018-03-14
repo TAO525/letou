@@ -17,6 +17,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 新增所有组合数据
  * @Author TAO
  * @Date 2018/3/13 15:44
  */
@@ -24,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @SpringBootTest
 public class InitNumbers {
 
-    private static final int threads = 16;//根据蓝球切割
+    private static final int threads = 10;//根据蓝球切割
 
     private static final int ends = 17721088;
 
@@ -72,6 +73,11 @@ public class InitNumbers {
 
     }
 
+    /**
+     * 利用16个管道分别更新16个表
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
     @Test
    public void go() throws InterruptedException, ExecutionException {
         init();
@@ -131,6 +137,47 @@ public class InitNumbers {
         System.out.println(Duration.between(now, Instant.now()).getSeconds());
     }
 
+    /**
+     * 多线程执行
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    @Test
+    public void go3() throws InterruptedException, ExecutionException {
+        int s1;
+        int c1, c2, c3, c4, c5, c6;
+        int count = 0;
+        Instant now = Instant.now();
+        for (s1 = 1; s1 <= 16; s1++) {
+            for (c1 = 1; c1 <= 28; c1++) {
+                for (c2 = c1 + 1; c2 <= 29; c2++) {
+                    for (c3 = c2+1; c3 <= 30; c3++) {
+                        final Whole whole = new Whole(c1, c2, 1, 1, 1, 1, s1);
+                        System.out.println(++count);
+                        pool.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                service.insert(whole);
+                            }
+                        });
+                    }
+                }
+            }
+
+        }
+        while (!pool.isTerminated()){
+            if(count >= 64960){
+                pool.shutdown();
+            }
+        }
+        System.out.println(count);
+        System.out.println(Duration.between(now, Instant.now()).getSeconds());
+    }
+
+    /**
+     * 单表数据复制
+     * @throws InterruptedException
+     */
     @Test
     public void go2() throws InterruptedException {
         int c1,c2,c3,c4,c5,c6;
@@ -157,5 +204,4 @@ public class InitNumbers {
         System.out.println(count);
         System.out.println(Duration.between(now,Instant.now()).getSeconds());
     }
-
 }

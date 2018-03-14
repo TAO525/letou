@@ -28,6 +28,7 @@ public class LetouUtil {
      * 计算当前时间到明天8点的秒数
      * @return
      */
+    // TODO: 2018/3/14 更新缓存时间 
     public static Long getSecondsForNew(){
         // 获取前月的第一天
         Date now = new Date();

@@ -2,7 +2,6 @@ package com.tao.service;
 
 import com.tao.domain.LogFeedback;
 import com.tao.mapper.LogFeedbackMapper;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

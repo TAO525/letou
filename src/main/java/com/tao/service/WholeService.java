@@ -16,15 +16,10 @@ public class WholeService {
     private WholeMapper wholeMapper;
 
     public void insert(Whole whole){
-
         Integer s1 = whole.getS1();
         int mod = s1%16;
         whole.setMod(mod);
         wholeMapper.insert(whole);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(1%16);
     }
 
     public void increse(Whole wholeAdd){
@@ -39,5 +34,12 @@ public class WholeService {
         int mod = s1%16;
         wholeAdd.setMod(mod);
         wholeMapper.fixed(wholeAdd);
+    }
+
+    public Whole getBySelect(Whole whole){
+        Integer s1 = whole.getS1();
+        int mod = s1%16;
+        whole.setMod(mod);
+        return wholeMapper.getBySelect(whole);
     }
 }

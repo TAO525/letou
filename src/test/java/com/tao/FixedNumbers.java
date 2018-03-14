@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.tao.utils.WholeUtil.*;
 
 /**
+ * 修复历史数据
  * @Author TAO
  * @Date 2018/3/13 15:44
  */
@@ -47,7 +48,7 @@ public class FixedNumbers {
 
     static {
         for (int i = 0; i < threads; i++) {
-            queues.add(new LinkedBlockingDeque<Whole>(30));
+            queues.add(new LinkedBlockingDeque<Whole>());
         }
     }
 
@@ -79,7 +80,6 @@ public class FixedNumbers {
    public void go() throws InterruptedException, ExecutionException {
         init();
         int s1;
-//       int total =0;
         Instant now = Instant.now();
         final List<Callable<Integer>> list = new ArrayList<>();
         final List<Letou> news = letouService.getNews(Integer.MAX_VALUE);
@@ -118,10 +118,7 @@ public class FixedNumbers {
 
         }
       List<Future<Integer>> futures = pool2.invokeAll(list);
-        /*  for(Future<Integer> f : futures){
-            Integer integer = f.get ();
-            total+=integer;
-        }*/
+
         while (!pool.isTerminated()) {
             if (atomicCount.get() >= ends) {
                 System.out.println("结束了");
