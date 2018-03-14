@@ -37,7 +37,7 @@
         </a>
     </div>
     <div class='card-wrapper'>
-        <a href='http://www.baidu.com'>
+        <a href='/letou/overview.html'>
             <div class='card bg-02'>
                 <span class='card-content'>统计页</span>
             </div>
@@ -100,12 +100,12 @@
                     </thead>
                     <tbody>
                     <tr id="result">
-                        <td id="p1">Tanmay</td>
-                        <td id="p2">Bangalore</td>
-                        <td id="p3">Tanmay</td>
-                        <td id="p4">Bangalore</td>
-                        <td id="p5">Tanmay</td>
-                        <td id="p6">Bangalore</td>
+                        <td id="p1"></td>
+                        <td id="p2"></td>
+                        <td id="p3"></td>
+                        <td id="p4"></td>
+                        <td id="p5"></td>
+                        <!--<td id="p6"></td>-->
                     </tr>
                     </tbody>
                 </table>
@@ -142,22 +142,16 @@
                 }
                 if(par.length != 7){
                     $("[data-toggle='popover']").popover('show');
+                    $('#p1').text('')
+                    $('#p2').text('')
+                    $('#p3').text('')
+                    $('#p4').text('')
+                    $('#p5').text('')
+//                    $('#p6').text('')
                     return;
                 }else {
                     $("[data-toggle='popover']").popover('destroy');//隐藏提示
                 }
-
-                /*$.ajax({
-                    url: '/letou/pandect',
-                    type: 'POST',
-                   /!* data: {
-                        nums : JSON.stringify(par)
-                    },
-                    contentType:"application/json charset=utf-8",*!/
-                    success: function (data, status) {
-                       alert(data);
-                    }
-                });*/
 
                 $.ajax({
                     type: 'POST',
@@ -166,7 +160,16 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response, ifo) {
-                        alert(response)
+                        console.log(response);
+                        if(response.ok){
+                            result = response.result;
+                            $('#p1').text(result.p1)
+                            $('#p2').text(result.p2)
+                            $('#p3').text(result.p3)
+                            $('#p4').text(result.p4)
+                            $('#p5').text(result.p5)
+//                            $('#p6').text(result.p6)
+                        }
                     }
                 })
             })

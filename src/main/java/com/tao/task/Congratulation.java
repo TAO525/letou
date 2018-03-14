@@ -45,13 +45,13 @@ public class Congratulation {
 
     /**
      * 查看历史数据中中奖信息
-     * 每周1 3 5 晚上跑
+     * 每周1 3 5 晚上3:20跑
      */
 //    @Scheduled(initialDelay = 60 * 1000,fixedDelay = 60*60*1000)
-    @Scheduled(cron = "0 10 8 * * MON,WED,FRI")
+    @Scheduled(cron = "0 20 3 * * MON,WED,FRI")
     public void scan(){
         logger.info("反馈定时任务开始");
-        Letou letou = letouService.getNew();
+        Letou letou = letouService.getNewNoCache();
         Object logDex = redisService.get(LetouConstant.LOG_DEX);
         long id = 0;
         if(logDex != null){

@@ -25,4 +25,7 @@ public final class LetouConstant {
 
     //redis中上次最新数据的游标
     public static final String LOG_DEX = "log_dex";
+
+    //redis中最新期数 用来防止节假日休息
+    public static final String NEW_PERIOD = "new_period_dex";
 }

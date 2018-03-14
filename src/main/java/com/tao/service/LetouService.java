@@ -61,6 +61,12 @@ public class LetouService {
         }
     }
 
+    //直接获取数据库
+    public Letou getNewNoCache(){
+        Letou aNew = letouMapper.getNew();
+        return aNew;
+    }
+
     public List<Letou> getNews(int limitnum){
         return letouMapper.getNews(limitnum);
     }
@@ -111,7 +117,7 @@ public class LetouService {
      * @return
      */
     public List<Integer> luck(){
-        Letou aNew = getNew();
+        Letou aNew = getNewNoCache();
         int c1 = Integer.parseInt(aNew.getC1());
         int c2 = Integer.parseInt(aNew.getC2());
         int c3 = Integer.parseInt(aNew.getC3());

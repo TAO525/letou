@@ -3,7 +3,9 @@ package com.tao.task;
 import com.tao.domain.Letou;
 import com.tao.domain.Whole;
 import com.tao.service.LetouService;
+import com.tao.service.RedisService;
 import com.tao.service.WholeService;
+import com.tao.utils.LetouConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.tao.utils.WholeUtil.*;
 
 /**
- * 定时任务 更新全部中奖记录
+ * 定时任务 更新全部中奖记录 为了效率 舍弃六等奖统计
  * @Author TAO
  * @Date 2018/2/22 18:22
  */
@@ -35,6 +37,9 @@ public class WholeUpdate {
 
     @Autowired
     private WholeService wholeService;
+
+    @Autowired
+    private RedisService redisService;
 
     private static final int threads = 16;//根据蓝球切割
 
@@ -66,15 +71,23 @@ public class WholeUpdate {
     }*/
     /**
      * 更新中奖信息
-     * 每周1 3 5 晚上跑
-     */// TODO: 2018/3/14  
+     * 每周1 3 5 晚上3:40跑
+     */
 //    @Scheduled(initialDelay = 20 * 1000,fixedDelay = 24*60*60*1000)
-//    @Scheduled(cron = "0 10 8 * * MON,WED,FRI")
+    @Scheduled(cron = "0 40 3 * * MON,WED,FRI")
     public void scan() throws InterruptedException {
         logger.info("更新中奖信息任务开始");
         init();
         final List<Callable<Integer>> list = new ArrayList<>();
-        Letou letou = letouService.getNew();
+        Letou letou = letouService.getNewNoCache();
+        if(redisService.get(LetouConstant.NEW_PERIOD)!=null) {
+            int period_flag = (int) redisService.get(LetouConstant.NEW_PERIOD);
+            //节假日没有开奖
+            if (letou.getPeriods() == period_flag) {
+                logger.info("放假没开");
+                return;
+            }
+        }
         logger.info("更新中奖信息最新号码"+letou);
         Instant now = Instant.now();
         final List<Letou> news = Arrays.asList(letou);
@@ -95,7 +108,7 @@ public class WholeUpdate {
                                             try {
                                                 boolean getfixed = getfixed(whole, news);
                                                 if(getfixed) {
-                                                    System.out.println("入列");
+//                                                    System.out.println("入列"+(atomicCount2.incrementAndGet()));
                                                     queues.get(flag).put(whole);
                                                 }
                                             } catch (InterruptedException e) {
@@ -119,7 +132,9 @@ public class WholeUpdate {
             queue.put(POSITION);
         }
         pool.shutdown();
-        pool.awaitTermination(15,TimeUnit.MINUTES);
+        pool.awaitTermination(300,TimeUnit.MINUTES);
+        //更新最新期数
+        redisService.set(LetouConstant.NEW_PERIOD,letou.getPeriods());
         logger.info("更新中奖信息任务结束,更新条数"+atomicCount.get());
         logger.info("更新中奖信息任务花费{}秒", Duration.between(now,Instant.now()).getSeconds());
     }
@@ -154,27 +169,27 @@ public class WholeUpdate {
         if(news.isEmpty() || news.size() != 1){
             return false;
         }
-        if(sixthPrize(whole,news)>0){
+       /* if(sixthPrize(whole,news)>0){
             whole.setPrize(6);
             return true;
-        }
-        else if(fifthPrize(whole,news)>0){
+        }*/
+        if(fifthPrize(whole,news)>0){
             whole.setPrize(5);
             return true;
         }
-        else if(forthPrize(whole,news)>0){
+        if(forthPrize(whole,news)>0){
             whole.setPrize(4);
             return true;
         }
-        else if(thirdPrize(whole,news)>0){
+        if(thirdPrize(whole,news)>0){
             whole.setPrize(3);
             return true;
         }
-        else if(secondPrize(whole,news)>0){
+        if(secondPrize(whole,news)>0){
             whole.setPrize(2);
             return true;
         }
-        else if(firstPrize(whole,news) >0){
+        if(firstPrize(whole,news) >0){
             whole.setPrize(1);
             return true;
         }

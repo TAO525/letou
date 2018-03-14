@@ -1,7 +1,9 @@
 package com.tao.controller;
 
 import com.google.common.collect.Lists;
-import com.tao.domain.*;
+import com.tao.domain.Letou;
+import com.tao.domain.LetouVo;
+import com.tao.domain.LogFeedback;
 import com.tao.service.FeedBackService;
 import com.tao.service.LetouService;
 import com.tao.service.RedisService;
@@ -10,7 +12,6 @@ import com.tao.utils.LetouConstant;
 import com.tao.utils.LetouUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -152,19 +152,4 @@ public class LetouController {
         return "whole";
     }
 
-    @RequestMapping("/rest/pandect")
-    @ResponseBody
-    public ResultDTO pandect(@RequestBody List<Integer> nums){
-       /* List<Integer> integers = nums.subList(0, 6);
-        Collections.sort(integers);
-        Whole whole = new Whole(integers.get(0), integers.get(1), integers.get(2)
-                , integers.get(3), integers.get(4), integers.get(5), nums.get(6));
-        Whole bySelect = wholeService.getBySelect(whole);
-        if(bySelect == null){
-            return ResultDTO.error("100","号码错误");
-        }else {
-            return ResultDTO.ok(bySelect);
-        }*/
-       return ResultDTO.error("100","号码错误");
-    }
 }
