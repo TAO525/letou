@@ -18,7 +18,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().ignoringAntMatchers("/rest/*")//使rest开头的请求可以使用post
+                .and().authorizeRequests()
                 .antMatchers("/feedback.html").authenticated()
                 .and()
                 .formLogin().loginPage("/login")

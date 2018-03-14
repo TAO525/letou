@@ -158,9 +158,17 @@
                        alert(data);
                     }
                 });*/
-                $.ajax({url:"/letou/pandect",data: {nums : par},contentType:"application/json charset=utf-8",success:function(result){
-                    alert(result)
-                }});
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/letou/rest/pandect",
+                    data:JSON.stringify(par) ,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response, ifo) {
+                        alert(response)
+                    }
+                })
             })
 
         $("#clear").click(

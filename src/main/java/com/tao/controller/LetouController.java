@@ -152,7 +152,7 @@ public class LetouController {
         return "whole";
     }
 
-    @RequestMapping("pandect")
+    @RequestMapping("/rest/pandect")
     @ResponseBody
     public ResultDTO pandect(@RequestBody List<Integer> nums){
        /* List<Integer> integers = nums.subList(0, 6);
