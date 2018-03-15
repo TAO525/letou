@@ -28,15 +28,15 @@ public class LetouUtil {
      * 计算当前时间到明天8点的秒数
      * @return
      */
-    // TODO: 2018/3/14 更新缓存时间 
+    //
     public static Long getSecondsForNew(){
         // 获取前月的第一天
         Date now = new Date();
         Calendar cale = Calendar.getInstance();
         cale.setTime(now);
         cale.add(Calendar.DAY_OF_YEAR, 1);
-        cale.set(Calendar.HOUR_OF_DAY, 8);
-        cale.set(Calendar.MINUTE, 20);
+        cale.set(Calendar.HOUR_OF_DAY, 4);
+        cale.set(Calendar.MINUTE, 10);
         cale.set(Calendar.SECOND, 0);
         return (cale.getTime().getTime() - now.getTime())/1000;
     }

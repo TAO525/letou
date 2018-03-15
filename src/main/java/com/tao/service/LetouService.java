@@ -56,7 +56,7 @@ public class LetouService {
             return (Letou)redisService.get(LetouConstant.NEW_KEY);
         }else {
             Letou aNew = letouMapper.getNew();
-            redisService.set(LetouConstant.NEW_KEY,aNew, LetouUtil.getSecondsForNew());//到明天8点20分
+            redisService.set(LetouConstant.NEW_KEY,aNew, LetouUtil.getSecondsForNew());//到明天4点10分
             return aNew;
         }
     }
@@ -83,7 +83,7 @@ public class LetouService {
             return  Long.valueOf(String.valueOf(redisService.get(key)));
         }else {
             long totalPeople = letouMapper.getTotalPeople(type);
-            redisService.set(key,totalPeople, LetouUtil.getSecondsForNew());//到明天8点20分
+            redisService.set(key,totalPeople, LetouUtil.getSecondsForNew());//到明天4点10分
             return totalPeople;
         }
     }
@@ -100,7 +100,7 @@ public class LetouService {
             return Long.valueOf(String.valueOf(redisService.get(key)));
         }else {
             long total = letouMapper.getTotal(type);
-            redisService.set(key,total, LetouUtil.getSecondsForNew());//到明天8点20分
+            redisService.set(key,total, LetouUtil.getSecondsForNew());//到明天4点10分
             return total;
         }
     }
@@ -299,7 +299,7 @@ public class LetouService {
             return Long.valueOf(String.valueOf(redisService.get(key)));
         }else {
             long total = letouMapper.getTotalPeriods();
-            redisService.set(key,total, LetouUtil.getSecondsForNew());//到明天8点20分
+            redisService.set(key,total, LetouUtil.getSecondsForNew());//到明天4点10分
             return total;
         }
     }
