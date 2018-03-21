@@ -45,7 +45,7 @@ public class WholeUpdate {
 
     private static final List<BlockingQueue<Whole>> queues = new CopyOnWriteArrayList<>();
 
-    private static final ExecutorService pool = Executors.newFixedThreadPool(threads);
+    private static ExecutorService pool;
 
     private static final ExecutorService pool2 = Executors.newFixedThreadPool(threads);
 
@@ -132,7 +132,11 @@ public class WholeUpdate {
             queue.put(POSITION);
         }
         pool.shutdown();
-        pool.awaitTermination(300,TimeUnit.MINUTES);
+//        pool.awaitTermination(300,TimeUnit.MINUTES);
+        while (!pool.awaitTermination(15, TimeUnit.MINUTES)) {
+            logger.info("线程池还未关闭");
+        }
+        logger.info("线程池已经关闭");
         //更新最新期数
         redisService.set(LetouConstant.NEW_PERIOD,letou.getPeriods());
         logger.info("更新中奖信息任务结束,更新条数"+atomicCount.get());
@@ -141,6 +145,7 @@ public class WholeUpdate {
 
     public void init() throws InterruptedException {
         atomicCount.set(0);
+        pool = Executors.newFixedThreadPool(threads);
         for (int i = 0; i < threads; i++) {
             final int flag = i;
             pool.execute(new Runnable() {
