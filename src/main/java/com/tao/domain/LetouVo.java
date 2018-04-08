@@ -22,4 +22,12 @@ public class LetouVo {
     public void setIsThird(int isThird) {
         this.isThird = isThird;
     }
+
+    @Override
+    public String toString() {
+        return "LetouVo{" +
+                "numbers=" + numbers +
+                ", isThird=" + isThird +
+                '}';
+    }
 }

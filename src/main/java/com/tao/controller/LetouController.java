@@ -8,8 +8,10 @@ import com.tao.service.FeedBackService;
 import com.tao.service.LetouService;
 import com.tao.service.RedisService;
 import com.tao.service.WholeService;
+import com.tao.utils.FeedBackExporter;
 import com.tao.utils.LetouConstant;
 import com.tao.utils.LetouUtil;
+import com.tao.utils.export.ExportUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +42,9 @@ public class LetouController {
     private FeedBackService feedBackService;
 
     @Resource
-    private WholeService wholeService;
+    private FeedBackExporter feedBackExporter;
+
+
 
     @RequestMapping("/")
     public String def(){
@@ -152,4 +158,9 @@ public class LetouController {
         return "whole";
     }
 
+    @RequestMapping("doexport")
+    public void doexport(HttpServletRequest request, HttpServletResponse response){
+        String str = feedBackExporter.createFile(null);
+        ExportUtil.doExport(str,"feedback",response);
+    }
 }
