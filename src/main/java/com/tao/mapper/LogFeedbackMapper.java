@@ -57,4 +57,6 @@ public interface LogFeedbackMapper {
     List<LogFeedback> getList(LogFeedback LogFeedback);
 
     List<LogFeedback> getListDesc();
+
+    Integer getCount();
 }

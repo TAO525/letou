@@ -27,4 +27,6 @@ public class FeedBackService {
     public List<LogFeedback> getList(){
        return logFeedbackMapper.getListDesc();
     }
+
+    public int getCount(){return logFeedbackMapper.getCount();}
 }

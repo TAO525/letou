@@ -302,4 +302,8 @@
     select * from log_feedback
     ORDER BY id DESC
   </select>
+
+  <select id="getCount" resultType="int">
+    select count(1) from log_feedback
+  </select>
 </mapper>

@@ -1,7 +1,9 @@
 package com.tao.utils;
 
 import com.tao.domain.LogFeedback;
+import com.tao.service.FeedBackService;
 import com.tao.utils.export.CSVExport;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,23 +15,49 @@ import java.util.List;
 @Service
 public class FeedBackExporter extends CSVExport<LogFeedback,String>{
 
+    @Autowired
+    private FeedBackService feedBackService;
+
     @Override
     public String[] getHeaders() {
-        return new String[0];
+        String[] header = {"期数","时间","一等奖数","二等奖数","三等奖数","四等奖数","五等奖数","六等奖数","总数","中奖率"};
+        return header;
     }
 
     @Override
     public List<LogFeedback> getPageContents(String s, int start, int pagesize) {
-        return null;
+        return feedBackService.getList();
     }
 
     @Override
     public long getTotal(String s) {
-        return 0;
+        return feedBackService.getCount();
     }
 
     @Override
     public Object getValue(int index, LogFeedback logFeedback) {
-        return null;
+        switch (index){
+            case 0:
+                return logFeedback.getPeriods();
+            case 1:
+                return logFeedback.getCreateTime();
+            case 2:
+                return logFeedback.getP1();
+            case 3:
+                return logFeedback.getP2();
+            case 4:
+                return logFeedback.getP3();
+            case 5:
+                return logFeedback.getP4();
+            case 6:
+                return logFeedback.getP5();
+            case 7:
+                return logFeedback.getP6();
+            case 8:
+                return logFeedback.getTotal();
+            case 9:
+                return logFeedback.getPercent();
+        }
+        throw new RuntimeException("头部信息和内容不一致");
     }
 }
