@@ -6,6 +6,8 @@ import com.tao.utils.export.CSVExport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -17,6 +19,10 @@ public class FeedBackExporter extends CSVExport<LogFeedback,String>{
 
     @Autowired
     private FeedBackService feedBackService;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+    private DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
     @Override
     public String[] getHeaders() {
@@ -40,7 +46,7 @@ public class FeedBackExporter extends CSVExport<LogFeedback,String>{
             case 0:
                 return logFeedback.getPeriods();
             case 1:
-                return logFeedback.getCreateTime();
+                return sdf.format(logFeedback.getCreateTime());
             case 2:
                 return logFeedback.getP1();
             case 3:
@@ -56,7 +62,7 @@ public class FeedBackExporter extends CSVExport<LogFeedback,String>{
             case 8:
                 return logFeedback.getTotal();
             case 9:
-                return logFeedback.getPercent();
+                return decimalFormat.format(logFeedback.getPercent());
         }
         throw new RuntimeException("头部信息和内容不一致");
     }
