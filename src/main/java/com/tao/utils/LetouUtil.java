@@ -3,6 +3,7 @@ package com.tao.utils;
 import com.tao.domain.Letou;
 import com.tao.domain.LetouLog;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,11 +26,50 @@ public class LetouUtil {
     }
 
     /**
-     * 计算当前时间到明天8点的秒数
+     * 判断时间是否在时间段内
+     * @param nowTime
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    public static boolean belongCalendar(Date nowTime, Date beginTime, Date endTime) {
+        Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(beginTime);
+
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+
+        if (date.after(begin) && date.before(end)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 计算当前时间到明天4点10分的秒数 如果在3点20分和0点之间则返回固定值
      * @return
      */
     //
     public static Long getSecondsForNew(){
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");//设置日期格式
+        Date now2 =null;
+        Date beginTime = null;
+        Date endTime = null;
+        try {
+            now2 = df.parse(df.format(new Date()));
+            beginTime = df.parse("00:00");
+            endTime = df.parse("03:20");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(belongCalendar(now2,beginTime,endTime)){
+            //防止没人使用的时候，缓存过长的错误时间
+            return 30 * 60L ;
+        }
         // 获取前月的第一天
         Date now = new Date();
         Calendar cale = Calendar.getInstance();
@@ -327,6 +367,17 @@ public class LetouUtil {
 
 
     public static void main(String[] args) {
-        System.out.println(getSecondsForNew());
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");//设置日期格式
+        Date now2 =null;
+        Date beginTime = null;
+        Date endTime = null;
+        try {
+            now2 = df.parse(df.format(new Date()));
+            beginTime = df.parse("00:00");
+            endTime = df.parse("03:10");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(belongCalendar(now2,beginTime,endTime));
     }
 }
