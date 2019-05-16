@@ -77,8 +77,6 @@ public class WholeUpdate {
     @Scheduled(cron = "0 40 3 * * MON,WED,FRI")
     public void scan() throws InterruptedException {
         logger.info("更新中奖信息任务开始");
-        init();
-        final List<Callable<Integer>> list = new ArrayList<>();
         Letou letou = letouService.getNewNoCache();
         if(redisService.get(LetouConstant.NEW_PERIOD)!=null) {
             int period_flag = (int) redisService.get(LetouConstant.NEW_PERIOD);
@@ -88,6 +86,8 @@ public class WholeUpdate {
                 return;
             }
         }
+        init();
+        final List<Callable<Integer>> list = new ArrayList<>();
         logger.info("更新中奖信息最新号码"+letou);
         Instant now = Instant.now();
         final List<Letou> news = Arrays.asList(letou);
